@@ -1,0 +1,48 @@
+{
+  "version": 8,
+  "name": "Doortrack Architectural Stable",
+  "sources": {
+    "openfreemap": {
+      "type": "vector",
+      "url": "https://tiles.openfreemap.org/planet"
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": { "background-color": "#FAFAF7" }
+    },
+    {
+      "id": "roads-base",
+      "type": "line",
+      "source": "openfreemap",
+      "source-layer": "transportation",
+      "paint": {
+        "line-color": "#E5E5E1",
+        "line-width": [
+          "interpolate", ["linear"], ["zoom"],
+          12, 0.5, 16, 2, 18, 4
+        ]
+      }
+    },
+    {
+      "id": "buildings-3d",
+      "type": "fill-extrusion",
+      "source": "openfreemap",
+      "source-layer": "building",
+      "minzoom": 14,
+      "paint": {
+        "fill-extrusion-color": "#FCFCFA",
+        "fill-extrusion-height": [
+          "interpolate", ["linear"], ["zoom"],
+          14, 0,
+          16, ["coalesce", ["get", "render_height"], 12]
+        ],
+        "fill-extrusion-base": 0,
+        "fill-extrusion-opacity": 0.95,
+        "fill-extrusion-vertical-gradient": true
+      }
+    }
+  ]
+}
