@@ -1,0 +1,2007 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DoorTrack — Direction artistique du site · v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  /* ===== PALETTE — V2 GROUNDED & WARM ===== */
+  /* Surfaces */
+  --canvas:    #F1ECE0;   /* sand chaud — DOMINANT */
+  --canvas-2:  #E8E1D1;   /* sand secondaire (sections alt.) */
+  --paper:     #FAF7F0;   /* paper warm — cartes principales */
+  --paper-2:   #FFFFFF;   /* paper pur — uniquement pour relief */
+  --linen:     #E2DAC6;   /* tertiaire chaud */
+
+  /* Texte & lignes */
+  --ink:       #1F2A2E;   /* texte fort (chaud, pas obsidian) */
+  --ink-soft:  #3A4549;   /* secondaire fort */
+  --muted:     #786E5E;   /* warm grey */
+  --muted-2:   #9A9080;
+  --line:      #DDD5C1;   /* bordure standard */
+  --line-2:    #C8BFA8;   /* bordure marquée */
+
+  /* Identité */
+  --teal:      #003F4C;   /* primaire — ancre, CTA secondaire */
+  --teal-2:    #0A5566;   /* hover */
+  --teal-ink:  #BFD4D9;   /* surface teal light pour blocs */
+  --terrain:   #E25B14;   /* orange chaud — signal */
+  --terrain-2: #C24A0E;
+  --terrain-soft:#F8DFC9; /* surface terrain light */
+  --ember:     #F3B179;   /* accent doux */
+
+  /* Fonctionnelles */
+  --success:   #2E9461;
+  --info:      #3C7DAF;
+  --plum:      #6A4FB3;
+  --danger:    #B83020;
+
+  /* Rare dark accent (pas dominant) */
+  --dark:      #1F2A2E;
+  --dark-soft: #2C383D;
+
+  /* Radii & elevation */
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+
+  --shadow-1: 0 1px 2px rgba(31,42,46,.04);
+  --shadow-2: 0 6px 24px -8px rgba(31,42,46,.10);
+  --shadow-3: 0 24px 60px -20px rgba(31,42,46,.18);
+
+  --font: "Manrope", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--canvas);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"ss01","cv11"}
+body{
+  background-image:
+    radial-gradient(rgba(60,40,20,.025) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+img,svg{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+
+/* ============ TYPE ============ */
+h1,h2,h3,h4{font-weight:700;letter-spacing:-.025em;color:var(--ink);text-wrap:balance}
+.h-1{font-size:clamp(48px, 8vw, 110px);font-weight:700;letter-spacing:-.035em;line-height:.95}
+.h-2{font-size:clamp(32px, 4.5vw, 56px);font-weight:700;letter-spacing:-.025em;line-height:1.05}
+.h-3{font-size:clamp(20px, 2vw, 28px);font-weight:700;letter-spacing:-.015em;line-height:1.2}
+.h-4{font-size:18px;font-weight:600;letter-spacing:-.005em}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:var(--muted)}
+.lead{font-size:clamp(16px,1.3vw,19px);line-height:1.55;color:var(--ink-soft);max-width:62ch;text-wrap:pretty}
+.mono{font-family:var(--mono)}
+.mono-tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+/* ============ LAYOUT ============ */
+.shell{max-width:1280px;margin:0 auto;padding:0 56px}
+section{padding:120px 0;position:relative}
+.alt{background:var(--canvas-2)}
+.paper-sec{background:var(--paper)}
+
+.section-head{display:grid;grid-template-columns:200px 1fr;gap:48px;margin-bottom:56px;align-items:start}
+.section-head .marker{display:flex;flex-direction:column;gap:6px}
+.section-head .marker .num{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--terrain);font-weight:600}
+.section-head .marker .id{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--muted);font-weight:500}
+
+/* paper texture override */
+.paper-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  position:relative;
+}
+.paper-card.elev{box-shadow:var(--shadow-2)}
+
+/* ============ TOPBAR ============ */
+.topbar{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);
+  z-index:100;
+  display:flex;align-items:center;gap:14px;
+  padding:6px 8px 6px 12px;
+  background:rgba(250,247,240,.85);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border:1px solid var(--line);
+  border-radius:99px;
+  color:var(--ink);
+  box-shadow:var(--shadow-2);
+}
+.topbar .brand{display:flex;align-items:center;gap:8px;padding-right:10px;border-right:1px solid var(--line)}
+.topbar .brand .mark{width:22px;height:22px;border-radius:6px;background:var(--teal);position:relative}
+.topbar .brand .mark::before{content:"";position:absolute;left:6px;top:5px;width:8px;height:12px;background:var(--paper);border-radius:2px}
+.topbar .brand .mark::after{content:"";position:absolute;left:11px;top:10px;width:3px;height:3px;border-radius:50%;background:var(--terrain)}
+.topbar .brand strong{font-size:14px;letter-spacing:-.01em}
+.topbar nav{display:flex;gap:2px}
+.topbar nav a{font-size:13px;color:var(--ink-soft);padding:6px 11px;border-radius:99px;transition:all .15s}
+.topbar nav a:hover{background:var(--canvas)}
+.topbar .cta{
+  background:var(--terrain);color:var(--paper-2);
+  font-size:13px;font-weight:600;letter-spacing:-.005em;
+  padding:7px 14px;border-radius:99px;
+  display:flex;align-items:center;gap:6px;
+}
+.topbar .cta::after{content:"→";font-family:var(--mono);font-weight:500}
+@media (max-width:880px){ .topbar nav{display:none} }
+
+
+/* =========================================================
+   HERO — sand dominant, real terrain context
+========================================================= */
+.hero{
+  background:var(--canvas);
+  padding:140px 0 80px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(60,40,20,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(60,40,20,.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 70% 35%, transparent 30%, #000 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 70% 35%, transparent 30%, #000 80%);
+  opacity:.7;
+  pointer-events:none;
+}
+.hero .shell{position:relative;z-index:2}
+
+.hero-meta{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:80px;
+}
+.hero-meta .coord{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted)}
+
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:80px;align-items:center}
+.hero-h1{
+  font-size:clamp(48px, 8.4vw, 116px);
+  font-weight:700;
+  letter-spacing:-.04em;
+  line-height:.96;
+  color:var(--ink);
+}
+.hero-h1 .terrain-word{color:var(--terrain);font-weight:700}
+.hero-h1 .underline{
+  background:linear-gradient(180deg, transparent 65%, rgba(226,91,20,.25) 65%);
+  padding:0 4px;
+}
+.hero-h1 small{
+  display:block;
+  font-family:var(--mono);font-size:14px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--terrain);
+  font-weight:500;margin-bottom:24px;
+}
+
+.hero-sub{font-size:19px;line-height:1.55;color:var(--ink-soft);max-width:48ch;margin-top:32px;text-wrap:pretty}
+
+.hero-cta-row{display:flex;gap:12px;margin-top:36px;align-items:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0 22px;height:54px;border-radius:99px;
+  font-weight:600;letter-spacing:-.005em;
+  transition:all .15s;
+  font-size:15px;
+}
+.btn-primary{background:var(--terrain);color:#fff;box-shadow:var(--shadow-2)}
+.btn-primary:hover{background:var(--terrain-2)}
+.btn-dark{background:var(--teal);color:var(--paper-2)}
+.btn-outline{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-2)}
+.btn-ghost{color:var(--ink)}
+.btn .arrow{font-family:var(--mono);font-weight:500}
+.hero-trust{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+.hero-trust .avatars{display:flex}
+.hero-trust .avatars span{width:28px;height:28px;border-radius:50%;border:2px solid var(--canvas);margin-left:-8px;display:block}
+.hero-trust .avatars span:first-child{margin-left:0;background:linear-gradient(135deg,#D4A877,#A47246)}
+.hero-trust .avatars span:nth-child(2){background:linear-gradient(135deg,#7A9D8F,#42675A)}
+.hero-trust .avatars span:nth-child(3){background:linear-gradient(135deg,#C77E5B,#8A4E2E)}
+
+/* HERO RIGHT — fiche prospect réelle */
+.hero-fiche{
+  background:var(--paper);
+  border-radius:var(--r-xl);
+  padding:28px;
+  border:1px solid var(--line);
+  box-shadow: var(--shadow-3);
+  position:relative;
+  transform:rotate(.4deg);
+}
+.hero-fiche::before{
+  /* tape effect */
+  content:"";position:absolute;
+  top:-12px;left:50%;transform:translateX(-50%) rotate(-2deg);
+  width:80px;height:22px;
+  background: rgba(226,91,20,.15);
+  border:1px dashed rgba(226,91,20,.3);
+  border-radius:4px;
+}
+.fiche-head{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.fiche-head .ttl{font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.fiche-head .pin-id{font-family:var(--mono);font-size:12px;color:var(--terrain);font-weight:600}
+.fiche-name{font-size:24px;font-weight:700;letter-spacing:-.015em;margin-top:18px}
+.fiche-addr{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+.fiche-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding:14px 0;border-top:1px dashed var(--line)}
+.fiche-row .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.fiche-row .val{font-size:15px;font-weight:600;color:var(--ink)}
+.fiche-score{
+  margin-top:20px;background:var(--terrain-soft);border-radius:var(--r);padding:16px;
+  display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;
+}
+.fiche-score .num{font-size:42px;font-weight:800;letter-spacing:-.025em;color:var(--terrain-2);line-height:.9}
+.fiche-score .num small{display:block;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--muted);margin-top:4px;letter-spacing:.06em}
+.fiche-score .qual{font-size:14px;font-weight:700;color:var(--terrain-2)}
+.fiche-score .formula{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+.fiche-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:16px}
+.fiche-actions .a{
+  height:42px;border-radius:10px;background:var(--canvas);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:13px;font-weight:600;color:var(--ink);
+}
+.fiche-actions .a.prim{background:var(--teal);color:var(--paper-2)}
+
+.hero-foot-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+  margin-top:80px;padding:28px 0;
+  border-top:1px solid var(--line);
+}
+.hero-stat{display:flex;flex-direction:column;gap:4px}
+.hero-stat .v{font-size:36px;font-weight:700;letter-spacing:-.025em;color:var(--ink);line-height:1}
+.hero-stat .l{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+
+/* =========================================================
+   CONCEPT — chaud, ancré
+========================================================= */
+.concept-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:64px;align-items:start}
+.concept-statement h2{font-size:clamp(36px, 5vw, 64px);font-weight:300;letter-spacing:-.025em;line-height:1.05;color:var(--ink)}
+.concept-statement h2 b{font-weight:700;color:var(--terrain);font-style:normal}
+.concept-statement h2 span{color:var(--ink)}
+
+.concept-pillars{display:grid;gap:12px}
+.pillar{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px;display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;
+}
+.pillar .n{
+  width:44px;height:44px;border-radius:10px;background:var(--canvas-2);
+  display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:14px;color:var(--ink);
+}
+.pillar.terrain .n{background:var(--terrain-soft);color:var(--terrain-2)}
+.pillar.teal .n{background:var(--teal-ink);color:var(--teal)}
+.pillar h4{margin-bottom:4px;font-size:17px}
+.pillar p{font-size:14px;color:var(--muted);line-height:1.55}
+
+
+/* =========================================================
+   NARRATIVE — three steps, light, grounded
+========================================================= */
+.narrative{padding:120px 0 140px;background:var(--paper-sec)}
+.narrative-head{margin-bottom:56px;display:grid;grid-template-columns:200px 1fr;gap:48px}
+
+.narrative-stages{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  position:relative;
+}
+.stage{
+  background:var(--paper);
+  border-radius:var(--r-lg);
+  border:1px solid var(--line);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.stage .preview{
+  aspect-ratio:3/2;
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.stage .meta{
+  padding:24px;display:flex;flex-direction:column;gap:6px;
+}
+.stage .meta .step-num{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  color:var(--terrain);font-weight:600;
+}
+.stage .meta h4{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.stage .meta p{font-size:14px;color:var(--muted);line-height:1.5;margin-top:4px}
+
+/* arrow between stages */
+.narrative-stages > .stage:nth-child(2)::before,
+.narrative-stages > .stage:nth-child(3)::before{
+  content:"→";position:absolute;
+  top:25%;width:34px;height:34px;
+  background:var(--terrain);color:#fff;
+  border-radius:50%;display:grid;place-items:center;
+  font-family:var(--mono);font-size:17px;font-weight:500;
+  box-shadow: 0 0 0 6px var(--paper);
+  z-index:5;
+  transform:translate(-50%, -50%);
+}
+.narrative-stages > .stage:nth-child(2)::before{left:33.33%}
+.narrative-stages > .stage:nth-child(3)::before{left:66.66%}
+
+/* STAGE 1 — Building photo placeholder (warm) */
+.preview-street{
+  background:linear-gradient(180deg, #D6CDB8 0%, #C9BFA6 40%, #B6AB91 100%);
+  position:relative;
+}
+.preview-street::before{
+  /* sky band */
+  content:"";position:absolute;top:0;left:0;right:0;height:35%;
+  background:linear-gradient(180deg, #E8DFC9 0%, #DCD0B3 100%);
+}
+.preview-street::after{
+  /* foreground sidewalk */
+  content:"";position:absolute;bottom:0;left:0;right:0;height:18%;
+  background:linear-gradient(180deg, transparent, rgba(31,42,46,.08));
+}
+.preview-street .b{
+  position:absolute;bottom:18%;background:var(--paper);
+  border:1px solid rgba(31,42,46,.18);
+  box-shadow:inset 0 -2px 0 rgba(31,42,46,.08);
+}
+.preview-street .b .w{
+  position:absolute;background:rgba(31,42,46,.45);
+  width:5px;height:7px;
+}
+.preview-street .b1{left:6%;width:18%;height:46%}
+.preview-street .b2{left:24%;width:16%;height:54%}
+.preview-street .b3{left:40%;width:22%;height:42%}
+.preview-street .b4{left:62%;width:14%;height:50%}
+.preview-street .b5{left:76%;width:20%;height:44%}
+.preview-street .pin{
+  position:absolute;width:20px;height:24px;
+  background:var(--terrain);
+  clip-path: polygon(50% 100%, 0 35%, 50% 0, 100% 35%);
+  filter:drop-shadow(0 4px 6px rgba(0,0,0,.18));
+  top:22%;
+}
+.preview-street .pin.p1{left:30%}
+.preview-street .pin.p2{left:48%;top:18%}
+.preview-street .pin.p3{left:70%;top:24%}
+.preview-street .pin::after{
+  content:"";position:absolute;left:50%;top:30%;transform:translateX(-50%);
+  width:6px;height:6px;border-radius:50%;background:var(--paper);
+}
+.preview-street .label{
+  position:absolute;bottom:6px;left:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink);background:rgba(250,247,240,.85);padding:3px 8px;border-radius:4px;
+}
+
+/* STAGE 2 — Cadastral map */
+.preview-cadastre{
+  background:var(--paper);
+  position:relative;
+}
+.preview-cadastre svg{position:absolute;inset:0;width:100%;height:100%}
+.preview-cadastre .label{
+  position:absolute;bottom:6px;left:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink);background:var(--canvas);padding:3px 8px;border-radius:4px;
+}
+
+/* STAGE 3 — App mockup */
+.preview-app{
+  background:var(--canvas);
+  padding:24px;display:flex;align-items:center;justify-content:center;position:relative;
+}
+.preview-app .label{
+  position:absolute;bottom:6px;left:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink);background:var(--paper);padding:3px 8px;border-radius:4px;
+}
+.app-mock{
+  background:var(--paper-2);border-radius:18px;
+  width:160px;aspect-ratio:9/18;
+  padding:10px 8px;display:flex;flex-direction:column;gap:6px;
+  box-shadow: 0 14px 28px -10px rgba(31,42,46,.25);
+  border:1px solid var(--line);
+}
+.app-mock .greet{font-size:14px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.app-mock .obj{background:var(--teal);color:var(--paper-2);border-radius:8px;padding:8px;margin-top:2px}
+.app-mock .obj .l{font-family:var(--mono);font-size:7px;letter-spacing:.16em;color:rgba(255,255,255,.6);text-transform:uppercase}
+.app-mock .obj .v{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1;margin-top:2px}
+.app-mock .obj .bar{height:3px;background:rgba(255,255,255,.2);border-radius:99px;margin-top:6px}
+.app-mock .obj .bar i{display:block;height:100%;background:var(--terrain);border-radius:99px;width:68%}
+.app-mock .kpis{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:2px}
+.app-mock .k{border:1px solid var(--line);border-radius:6px;padding:6px;position:relative}
+.app-mock .k::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px}
+.app-mock .k.t::after{background:var(--terrain)}
+.app-mock .k.b::after{background:var(--info)}
+.app-mock .k .lk{font-family:var(--mono);font-size:6px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+.app-mock .k .vk{font-size:13px;font-weight:800;letter-spacing:-.02em;margin-top:1px}
+.app-mock .cta-mock{margin-top:auto;background:var(--teal);color:var(--paper-2);border-radius:8px;height:26px;display:grid;place-items:center;font-size:9px;font-weight:600}
+
+.narrative-foot{
+  margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;
+}
+.narrative-foot .stat{padding:24px 28px;border-right:1px solid var(--line)}
+.narrative-foot .stat:last-child{border-right:0}
+.narrative-foot .stat strong{display:block;font-size:24px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.narrative-foot .stat span{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+
+/* =========================================================
+   DIRECTION ARTISTIQUE DÉTAILLÉE
+========================================================= */
+.da-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.da-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:28px;display:flex;flex-direction:column;gap:16px;
+}
+.da-card .demo{
+  height:140px;border-radius:var(--r);position:relative;overflow:hidden;border:1px solid var(--line);
+}
+.da-card h3{font-size:20px;font-weight:700;letter-spacing:-.015em}
+.da-card p{font-size:14px;color:var(--muted);line-height:1.55}
+.da-card .spec{display:flex;flex-wrap:wrap;gap:6px}
+.da-card .spec span{font-family:var(--mono);font-size:11px;background:var(--canvas);color:var(--ink);padding:5px 10px;border-radius:6px;letter-spacing:.02em}
+
+/* demos v2 — warm/sand based */
+.demo-fonds{background:linear-gradient(135deg,var(--canvas) 0%,var(--canvas-2) 33%, var(--paper) 66%, var(--paper-2) 100%)}
+.demo-contrast{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.demo-contrast > i{background:var(--canvas)}
+.demo-contrast > i:nth-child(1){background:var(--linen)}
+.demo-contrast > i:nth-child(2){background:var(--canvas-2)}
+.demo-contrast > i:nth-child(3){background:var(--paper)}
+.demo-contrast > i:nth-child(4){background:var(--paper-2)}
+.demo-contrast > i:nth-child(5){background:var(--terrain);position:relative}
+.demo-contrast > i:nth-child(5)::after{content:"signal";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10px;color:#fff;letter-spacing:.12em;text-transform:uppercase}
+
+.demo-shadows{background:var(--canvas);display:flex;align-items:center;justify-content:space-around;padding:20px}
+.demo-shadows .s{width:60px;height:60px;border-radius:10px;background:var(--paper)}
+.demo-shadows .s1{box-shadow:var(--shadow-1)}
+.demo-shadows .s2{box-shadow:var(--shadow-2)}
+.demo-shadows .s3{box-shadow:var(--shadow-3)}
+
+.demo-borders{background:var(--paper);display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:20px}
+.demo-borders .b{height:55px;border-radius:10px;background:var(--paper)}
+.demo-borders .b1{border:1px solid var(--line)}
+.demo-borders .b2{border:1px solid var(--line-2)}
+.demo-borders .b3{border:1.5px solid var(--terrain);background:var(--terrain-soft)}
+
+.demo-cards{background:var(--canvas);display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:18px}
+.demo-cards .c{background:var(--paper);border-radius:12px;padding:12px;border:1px solid var(--line)}
+.demo-cards .c h5{font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.demo-cards .c .mk{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.08em;text-transform:uppercase}
+.demo-cards .c .v{font-size:20px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-top:6px}
+
+.demo-blocks{background:var(--canvas);display:grid;grid-template-rows:auto 1fr;gap:6px;padding:14px}
+.demo-blocks .row{display:flex;gap:6px}
+.demo-blocks .a{height:18px;background:var(--paper);border-radius:5px;border:1px solid var(--line);flex:1}
+.demo-blocks .b{height:100%;background:var(--paper);border:1px solid var(--line);border-radius:8px;flex:1;display:grid;place-items:center;font-family:var(--mono);font-size:9px;color:var(--muted);text-align:center;padding:6px}
+
+
+/* =========================================================
+   PALETTE
+========================================================= */
+.palette-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:12px}
+.swatch{
+  border-radius:var(--r);
+  overflow:hidden;
+  background:var(--paper);
+  border:1px solid var(--line);
+}
+.swatch .chip{aspect-ratio:5/4;position:relative;display:flex;align-items:flex-end;padding:14px}
+.swatch .chip .n{font-size:14px;font-weight:700;letter-spacing:-.01em;color:#fff}
+.swatch .chip .n.light-fg{color:var(--ink)}
+.swatch .info{padding:12px 14px;display:grid;gap:3px}
+.swatch .hex{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink)}
+.swatch .role{font-size:11px;color:var(--muted);line-height:1.4}
+
+.palette-roles{
+  margin-top:40px;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+}
+.palette-roles .h, .palette-roles .r{
+  display:grid;grid-template-columns:200px 1fr 1.2fr;gap:24px;padding:18px 28px;align-items:center;
+}
+.palette-roles .h{background:var(--canvas);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.palette-roles .r{border-top:1px solid var(--line)}
+.palette-roles .r .tok{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;font-weight:600}
+.palette-roles .r .tok i{width:18px;height:18px;border-radius:5px;flex-shrink:0;border:1px solid rgba(0,0,0,.05)}
+.palette-roles .r p{font-size:13px;color:var(--muted);line-height:1.5}
+.palette-roles .r small{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+.typo-pair{display:grid;grid-template-columns:1.3fr .7fr;gap:24px;margin-bottom:20px}
+.type-feature{
+  background:var(--paper);color:var(--ink);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:48px;position:relative;overflow:hidden;
+  min-height:300px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.type-feature .specimen{font-size:clamp(80px,10vw,160px);font-weight:700;letter-spacing:-.04em;line-height:.85;color:var(--ink)}
+.type-feature .specimen em{color:var(--terrain);font-style:normal;font-weight:300}
+.type-feature .info{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}
+.type-feature .info .name{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.type-feature .info .meta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.type-feature.mono .specimen{font-family:var(--mono);font-weight:600;font-size:clamp(70px,8.5vw,130px)}
+.type-feature.mono .specimen em{color:var(--teal)}
+.type-feature.mono{background:var(--canvas-2)}
+
+.type-scale{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:14px}
+.type-scale .ts-row{display:grid;grid-template-columns:90px 1fr;gap:18px;padding-bottom:14px;border-bottom:1px solid var(--line);align-items:baseline}
+.type-scale .ts-row:last-child{border-bottom:0;padding-bottom:0}
+.type-scale .role{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.type-scale .sample{color:var(--ink)}
+.ts-d{font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.ts-h1{font-size:30px;font-weight:700;letter-spacing:-.025em}
+.ts-h2{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.ts-h3{font-size:17px;font-weight:600}
+.ts-b{font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.ts-l{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ts-m{font-family:var(--mono);font-size:13px;color:var(--ink);letter-spacing:.02em}
+
+
+/* =========================================================
+   SYSTÈME VISUEL
+========================================================= */
+.system-block{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+.sys-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px;display:flex;flex-direction:column;gap:14px;
+}
+.sys-card .preview{
+  height:160px;border-radius:12px;background:var(--canvas);
+  display:grid;place-items:center;position:relative;overflow:hidden;border:1px solid var(--line);
+}
+.sys-card h4{font-size:16px}
+.sys-card p{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* icon style preview */
+.icon-row{display:flex;gap:14px}
+.icon-row svg{width:28px;height:28px;stroke:var(--ink);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* building preview — cadastral */
+.bldg-preview{height:160px;background:var(--paper);position:relative;overflow:hidden}
+.bldg-preview .bg-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(60,40,20,.05) 1px, transparent 1px),linear-gradient(90deg, rgba(60,40,20,.05) 1px, transparent 1px);
+  background-size:18px 18px}
+.bldg-preview .b{position:absolute;background:var(--paper-2);border:1px solid var(--line-2);border-radius:2px}
+.bldg-preview .b.hot{background:var(--terrain-soft);border-color:var(--terrain);border-width:1.5px}
+.bldg-preview .b.signed{background:#D5EBDF;border-color:var(--success)}
+.bldg-preview .b.cool{background:#D5E2EE;border-color:var(--info)}
+
+/* map preview — cadastral lines */
+.map-preview{height:160px;background:var(--paper);border-radius:8px;position:relative;overflow:hidden}
+.map-preview svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* whitespace preview */
+.ws-preview{height:160px;background:var(--canvas);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;position:relative}
+.ws-preview .dot{width:6px;height:6px;background:var(--ink);border-radius:50%;position:absolute}
+.ws-preview .dot.d1{top:20%;left:20%}
+.ws-preview .dot.d2{bottom:20%;right:20%}
+
+/* illustration preview — warm soft */
+.illu-preview{height:160px;background:var(--canvas);position:relative;overflow:hidden;display:grid;place-items:center}
+.illu-preview .core{
+  width:88px;height:88px;border-radius:18px;
+  background:linear-gradient(135deg, var(--teal) 0%, var(--teal-2) 100%);
+  position:relative;
+  box-shadow: var(--shadow-3);
+}
+.illu-preview .core::after{
+  content:"";position:absolute;inset:12px;border-radius:10px;
+  background:linear-gradient(135deg, var(--terrain), var(--ember));opacity:.5;
+}
+
+/* transition preview */
+.trans-preview{height:160px;background:linear-gradient(90deg, var(--linen) 0%, var(--canvas-2) 33%, var(--paper) 66%, var(--paper-2) 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);position:relative}
+.trans-preview::after{content:"rue → plan → fiche";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--paper);padding:6px 12px;border-radius:99px;border:1px solid var(--line);box-shadow:var(--shadow-1)}
+
+/* photo placeholder — terrain reality */
+.photo-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.photo-tile{
+  aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;
+  background:linear-gradient(135deg, #D6CDB8, #B6AB91);
+  position:relative;border:1px solid var(--line);
+}
+.photo-tile.b{background:linear-gradient(135deg, #C4B79D, #A99C81)}
+.photo-tile.c{background:linear-gradient(135deg, #BDA890, #927C61)}
+.photo-tile::before{
+  content:"";position:absolute;inset:0;
+  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 6px,transparent 6px 12px);
+}
+.photo-tile .lbl{
+  position:absolute;left:14px;bottom:14px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:#fff;background:rgba(31,42,46,.4);padding:5px 10px;border-radius:5px;backdrop-filter:blur(4px);
+}
+.photo-tile .cap{
+  position:absolute;right:14px;top:14px;
+  width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.3);
+  display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:600;color:#fff;
+}
+
+.photo-note{
+  margin-top:18px;display:flex;align-items:center;gap:14px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+}
+.photo-note::before{content:"";width:24px;height:1px;background:var(--line-2)}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+.anim-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.anim-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:28px;display:grid;grid-template-columns:1fr;gap:18px;
+}
+.anim-card .where{display:flex;gap:6px;flex-wrap:wrap}
+.anim-card .where span{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--canvas);padding:5px 10px;border-radius:6px;color:var(--ink)}
+.anim-card h3{font-size:20px}
+.anim-card p{font-size:14px;color:var(--muted);line-height:1.55}
+.anim-card .meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding-top:18px;border-top:1px solid var(--line)}
+.anim-card .meta .m{display:flex;flex-direction:column;gap:4px}
+.anim-card .meta .m .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.anim-card .meta .m .v{font-size:14px;font-weight:600;color:var(--ink)}
+
+.anim-bad{
+  margin-top:28px;
+  background:var(--canvas-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:36px;
+  display:grid;grid-template-columns:240px 1fr;gap:48px;
+}
+.anim-bad h3{color:var(--ink);font-size:22px;margin-top:8px}
+.anim-bad ul{list-style:none;display:grid;gap:10px;margin-top:6px}
+.anim-bad ul li{color:var(--ink-soft);font-size:14px;line-height:1.5;display:grid;grid-template-columns:24px 1fr;gap:8px}
+.anim-bad ul li::before{content:"×";color:var(--danger);font-weight:700;font-size:16px}
+
+
+/* =========================================================
+   LANDING STRUCTURE
+========================================================= */
+.structure-section{padding:120px 0;background:var(--canvas)}
+.landing-list{display:flex;flex-direction:column;gap:18px}
+.landing-section{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:36px;
+  display:grid;grid-template-columns:64px 1fr 1.1fr;gap:40px;align-items:start;
+}
+.landing-section .n{
+  display:flex;flex-direction:column;gap:4px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--terrain);font-weight:600;
+}
+.landing-section .n b{font-size:36px;font-weight:300;font-family:var(--mono);color:var(--ink);letter-spacing:-.02em;line-height:1}
+.landing-section .info h3{font-size:22px;margin-bottom:8px}
+.landing-section .info > p{font-size:14px;color:var(--muted);line-height:1.55;margin-bottom:14px}
+.landing-section .info .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.landing-section .info .tags span{font-family:var(--mono);font-size:10px;background:var(--canvas);padding:4px 9px;border-radius:6px;letter-spacing:.06em;color:var(--ink)}
+.landing-section .info ul{list-style:none;display:grid;gap:8px;margin-top:6px}
+.landing-section .info ul li{font-size:13px;color:var(--ink-soft);line-height:1.4;display:grid;grid-template-columns:14px 1fr;gap:8px}
+.landing-section .info ul li::before{content:"—";color:var(--terrain);font-family:var(--mono)}
+
+.landing-section .mockup{
+  background:var(--canvas);border-radius:var(--r);
+  aspect-ratio:16/10;
+  position:relative;overflow:hidden;
+  border:1px solid var(--line);
+}
+
+.mockup .marker{
+  position:absolute;top:12px;left:14px;font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)
+}
+
+/* mockup variants — light versions */
+.mk-hero{
+  display:flex;flex-direction:column;justify-content:center;padding:28px;gap:8px;position:relative;
+  background:var(--canvas);
+}
+.mk-hero .map-decor{position:absolute;right:-15%;top:-20%;width:70%;height:140%;
+  background-image:linear-gradient(rgba(0,63,76,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(0,63,76,.12) 1px,transparent 1px);
+  background-size:14px 14px;
+  transform:rotate(-8deg);
+  mask-image:radial-gradient(circle at 30% 50%, #000 30%, transparent 70%);
+  -webkit-mask-image:radial-gradient(circle at 30% 50%, #000 30%, transparent 70%);
+}
+.mk-hero .ttl{font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1;position:relative}
+.mk-hero .ttl em{color:var(--terrain);font-style:normal;font-weight:700}
+.mk-hero .sub{font-size:10px;color:var(--muted);max-width:24ch;position:relative}
+.mk-hero .btns{display:flex;gap:6px;margin-top:6px;position:relative}
+.mk-hero .btns .b{height:22px;padding:0 10px;border-radius:99px;background:var(--terrain);font-size:9px;font-weight:600;color:#fff;display:flex;align-items:center}
+.mk-hero .btns .b2{background:transparent;border:1px solid var(--line-2);color:var(--ink)}
+.mk-hero .pin-decor{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--terrain);box-shadow:0 0 0 3px rgba(226,91,20,.18)}
+.mk-hero .pd1{top:35%;right:25%}
+.mk-hero .pd2{top:55%;right:15%}
+
+.mk-proof{padding:24px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-content:center;background:var(--paper)}
+.mk-proof .lg{height:24px;background:var(--canvas);border-radius:4px;border:1px solid var(--line)}
+
+.mk-split{display:grid;grid-template-columns:1fr 1fr;padding:0}
+.mk-split .left, .mk-split .right{padding:20px;display:flex;flex-direction:column;gap:6px}
+.mk-split .left{background:var(--paper)}
+.mk-split .right{background:var(--canvas-2)}
+.mk-split h5{font-size:13px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+.mk-split p{font-size:10px;color:var(--muted);line-height:1.4}
+.mk-split .ch{display:flex;align-items:center;gap:5px;margin-top:4px;font-family:var(--mono);font-size:9px;color:var(--terrain);letter-spacing:.1em;text-transform:uppercase}
+
+.mk-demo{padding:14px;display:flex;flex-direction:column;justify-content:center;gap:8px;background:var(--paper)}
+.mk-demo .head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+.mk-demo .map-container{flex:1;border-radius:6px;background:var(--paper);border:1px solid var(--line);position:relative;overflow:hidden}
+.mk-demo .map-container::before{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(0,63,76,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(0,63,76,.1) 1px,transparent 1px);
+  background-size:14px 14px}
+.mk-demo .pn{position:absolute;border-radius:50%}
+.mk-demo .pn.hot{width:8px;height:8px;background:var(--terrain);box-shadow:0 0 0 3px rgba(226,91,20,.18)}
+.mk-demo .pn.cool{width:6px;height:6px;background:var(--info)}
+
+.mk-steps{padding:20px;display:flex;flex-direction:column;justify-content:center;gap:8px;background:var(--paper)}
+.mk-steps .st{display:grid;grid-template-columns:24px 1fr;gap:10px;color:var(--ink-soft);font-size:11px;align-items:center}
+.mk-steps .st .num{width:24px;height:24px;border-radius:50%;background:var(--canvas);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--terrain);font-weight:600}
+
+.mk-cta{padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:8px;background:var(--canvas);position:relative}
+.mk-cta::before{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(0,63,76,.08) 1px, transparent 1px);
+  background-size:14px 14px;}
+.mk-cta h5{font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1.05;position:relative}
+.mk-cta h5 em{color:var(--terrain);font-style:normal;font-weight:700}
+.mk-cta .b{margin-top:6px;height:26px;padding:0 14px;border-radius:99px;background:var(--terrain);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;gap:6px;position:relative}
+
+.mk-footer{padding:20px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;background:var(--paper)}
+.mk-footer .links{display:flex;gap:14px;font-family:var(--mono);font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.16em}
+.mk-footer .brand-row{display:flex;justify-content:space-between;align-items:flex-end;color:var(--muted);font-family:var(--mono);font-size:9px;border-top:1px solid var(--line);padding-top:10px;letter-spacing:.14em;text-transform:uppercase}
+
+
+/* =========================================================
+   DESIGN SYSTEM
+========================================================= */
+.ds-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.ds-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px;display:flex;flex-direction:column;gap:14px;
+}
+.ds-card h4{display:flex;justify-content:space-between;align-items:center;font-size:14px;letter-spacing:0;font-weight:700}
+.ds-card h4 small{font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.span-4{grid-column:span 4}
+.span-6{grid-column:span 6}
+.span-12{grid-column:span 12}
+
+.radii{display:flex;gap:10px;align-items:flex-end}
+.radii .r{flex:1;background:var(--canvas);height:60px;display:grid;place-items:center;color:var(--muted);font-family:var(--mono);font-size:10px;border:1px solid var(--line)}
+.radii .r1{border-radius:6px}.radii .r2{border-radius:12px}.radii .r3{border-radius:20px}.radii .r4{border-radius:32px}
+
+.spacing{display:flex;gap:6px;align-items:center}
+.spacing .sp{background:var(--terrain);height:22px;border-radius:3px}
+.spacing .sp.s4{width:4px}.spacing .sp.s8{width:8px}.spacing .sp.s12{width:12px}.spacing .sp.s16{width:16px}.spacing .sp.s24{width:24px}.spacing .sp.s32{width:32px}.spacing .sp.s48{width:48px}.spacing .sp.s64{width:64px}
+.spacing-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px}
+
+.ds-btn{display:flex;flex-wrap:wrap;gap:8px}
+.ds-btn .btn{height:44px;padding:0 18px;font-size:14px}
+.ds-btn .btn-sm{height:32px;font-size:12px;padding:0 14px}
+
+.ds-fields{display:flex;flex-direction:column;gap:10px}
+.field{display:flex;align-items:center;gap:10px;height:46px;padding:0 16px;border-radius:10px;background:var(--paper);border:1px solid var(--line);font-size:14px;color:var(--muted)}
+.field.focus{border-color:var(--terrain);box-shadow:0 0 0 4px rgba(226,91,20,.1);color:var(--ink)}
+
+.ds-badges{display:flex;flex-wrap:wrap;gap:6px}
+.bd{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 9px;border-radius:6px;font-weight:600}
+.bd-new{background:var(--terrain-soft);color:var(--terrain-2)}
+.bd-pro{background:var(--teal-ink);color:var(--teal)}
+.bd-ok{background:#D9EEE2;color:var(--success)}
+.bd-info{background:var(--canvas);color:var(--ink)}
+
+.ds-kpi{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi-b{padding:14px;border-radius:10px;background:var(--paper);border:1px solid var(--line);position:relative}
+.kpi-b::after{content:"";position:absolute;left:0;bottom:0;right:0;height:2px;background:var(--terrain);border-radius:0 0 10px 10px}
+.kpi-b .l{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.kpi-b .v{font-size:20px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-top:4px;line-height:1}
+.kpi-b .s{font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--mono)}
+
+.ds-list{display:flex;flex-direction:column;gap:8px}
+.ds-list .l{display:grid;grid-template-columns:18px 1fr;gap:10px;font-size:13px;color:var(--ink-soft)}
+.ds-list .l .bx{width:16px;height:16px;border-radius:4px;background:var(--canvas);position:relative}
+.ds-list .l .bx::after{content:"→";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:11px;color:var(--terrain);font-weight:600}
+
+
+/* =========================================================
+   FINAL VISION
+========================================================= */
+.final{
+  background:var(--canvas);
+  padding:140px 0;
+  position:relative;
+  overflow:hidden;
+}
+.final::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(60,40,20,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(60,40,20,.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, transparent 30%, #000 80%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, transparent 30%, #000 80%);
+  pointer-events:none;
+}
+.final .shell{position:relative;z-index:2}
+.final-title{font-size:clamp(36px, 6vw, 88px);font-weight:300;letter-spacing:-.03em;line-height:1.05;color:var(--ink);max-width:22ch}
+.final-title b{font-weight:700;color:var(--terrain);font-style:normal}
+.final-block{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:64px}
+.final-block .b{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:28px;
+}
+.final-block h4{color:var(--terrain);font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px;font-weight:600}
+.final-block p{color:var(--ink-soft);font-size:14px;line-height:1.55}
+
+.final-foot{margin-top:88px;padding-top:36px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:end}
+.final-foot .meta{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:grid;gap:4px}
+.final-foot .sig{display:flex;align-items:center;gap:14px;color:var(--ink)}
+.final-foot .sig strong{font-size:22px;font-weight:700;letter-spacing:-.02em}
+
+
+/* responsive */
+@media (max-width: 900px){
+  .shell{padding:0 24px}
+  section{padding:72px 0}
+  .section-head{grid-template-columns:1fr;gap:24px;margin-bottom:32px}
+  .narrative-head{grid-template-columns:1fr;gap:24px}
+  .hero-meta{margin-bottom:48px}
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .hero-foot-strip{grid-template-columns:1fr 1fr}
+  .concept-grid{grid-template-columns:1fr;gap:32px}
+  .narrative-stages{grid-template-columns:1fr;gap:18px}
+  .narrative-stages > .stage::before{display:none}
+  .narrative-foot{grid-template-columns:1fr}
+  .narrative-foot .stat{border-right:0;border-bottom:1px solid var(--line)}
+  .da-grid{grid-template-columns:1fr}
+  .palette-row{grid-template-columns:repeat(2,1fr)}
+  .palette-roles .h,.palette-roles .r{grid-template-columns:1fr;gap:8px}
+  .typo-pair{grid-template-columns:1fr}
+  .system-block{grid-template-columns:1fr}
+  .photo-row{grid-template-columns:1fr}
+  .anim-grid{grid-template-columns:1fr}
+  .anim-bad{grid-template-columns:1fr;gap:18px;padding:24px}
+  .landing-section{grid-template-columns:1fr;gap:18px;padding:24px}
+  .ds-grid{grid-template-columns:1fr}
+  .span-4,.span-6{grid-column:span 1}
+  .final-block{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topbar">
+  <div class="brand">
+    <div class="mark"></div>
+    <strong>DoorTrack</strong>
+  </div>
+  <nav>
+    <a href="#concept">Concept</a>
+    <a href="#narratif">Narratif</a>
+    <a href="#palette">Palette</a>
+    <a href="#typo">Typo</a>
+    <a href="#systeme">Système</a>
+    <a href="#anim">Motion</a>
+    <a href="#landing">Landing</a>
+    <a href="#ds">Design system</a>
+  </nav>
+  <a href="#final" class="cta">Vision</a>
+</div>
+
+
+<!-- =============================================== -->
+<!-- HERO                                            -->
+<!-- =============================================== -->
+<section class="hero" data-screen-label="01 Hero">
+  <div class="shell">
+
+    <div class="hero-meta">
+      <div>
+        <span class="eyebrow">Direction artistique — site DoorTrack</span>
+        <div class="mono-tag" style="margin-top:6px">DT / DA / 2026-05 · v2</div>
+      </div>
+      <div style="text-align:right">
+        <div class="mono-tag" style="color:var(--terrain)">▲ v2 — version grounded</div>
+        <div class="mono-tag" style="margin-top:4px">Nancy · 48.6837°N · 6.2049°E</div>
+      </div>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-h1">
+          <small>Direction artistique · site</small>
+          Le <span class="underline">terrain</span><br/>
+          mérite un <span class="terrain-word">vrai</span><br/>
+          outil.
+        </h1>
+        <p class="hero-sub">DoorTrack est un cockpit de prospection porte-à-porte pour les équipes commerciales qui veulent enfin <b>voir clair</b> sur leur secteur. Cette direction artistique pose le langage visuel du site — chaude, ancrée, sans gadget, à hauteur de manager terrain.</p>
+
+        <div class="hero-cta-row">
+          <button class="btn btn-primary">Voir la direction <span class="arrow">→</span></button>
+          <button class="btn btn-outline">Télécharger en PDF</button>
+        </div>
+
+        <div class="hero-trust" style="margin-top:32px">
+          <div class="avatars"><span></span><span></span><span></span></div>
+          <span>Conçu avec et pour des managers terrain — pas en chambre</span>
+        </div>
+      </div>
+
+      <!-- FICHE PROSPECT -->
+      <div class="hero-fiche">
+        <div class="fiche-head">
+          <div>
+            <div class="ttl">Fiche prospect · secteur 03</div>
+            <div class="fiche-name">Noël Guenfoudi</div>
+            <div class="fiche-addr">27a rue de la Libération · 54840</div>
+          </div>
+          <div class="pin-id">#1284</div>
+        </div>
+        <div class="fiche-row">
+          <span class="lbl">Dernier contact</span>
+          <span class="val">il y a 3 h</span>
+        </div>
+        <div class="fiche-row">
+          <span class="lbl">Passages · devis</span>
+          <span class="val">3 · 1</span>
+        </div>
+        <div class="fiche-row">
+          <span class="lbl">Statut</span>
+          <span class="val" style="color:var(--terrain-2);font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700">Relance</span>
+        </div>
+
+        <div class="fiche-score">
+          <div class="num">82<small>/100</small></div>
+          <div>
+            <div class="qual">Très chaud</div>
+            <div class="formula">récence + intention + interactions + voisinage + action</div>
+          </div>
+        </div>
+
+        <div class="fiche-actions">
+          <div class="a prim">Appeler</div>
+          <div class="a">Itinéraire</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-foot-strip">
+      <div class="hero-stat"><div class="v">10</div><div class="l">sections de DA</div></div>
+      <div class="hero-stat"><div class="v">2 univers</div><div class="l">sand dominant · ink accent</div></div>
+      <div class="hero-stat"><div class="v">07</div><div class="l">sections landing</div></div>
+      <div class="hero-stat"><div class="v">100%</div><div class="l">cohérent app & terrain</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- CONCEPT                                         -->
+<!-- =============================================== -->
+<section id="concept" data-screen-label="02 Concept">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker">
+        <span class="num">§ 01</span>
+        <span class="id">Concept</span>
+      </div>
+      <span class="eyebrow">Concept créatif global</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-statement">
+        <h2>
+          <span>Pas un site SaaS de plus.</span><br/>
+          Un <b>carnet de route</b><br/>
+          numérique<br/>
+          pour vrais commerciaux.
+        </h2>
+        <p class="lead" style="margin-top:32px">L'identité visuelle du site emprunte au <b>carnet de terrain</b> du manager commercial : papier chaud, fiches structurées, dessins techniques au trait fin, annotations en mono. La cartographie est centrale mais ressemble plus à un <b>plan cadastral</b> qu'à un dashboard sci-fi.</p>
+        <p class="lead" style="margin-top:18px">Le ton est <b>professionnel, sérieux et chaud</b> : un outil pensé par des gens qui ont vendu en porte-à-porte, pour des gens qui en vivent. Pas de néon, pas de glow, pas de futurisme gratuit.</p>
+      </div>
+
+      <div class="concept-pillars">
+        <div class="pillar terrain">
+          <div class="n">01</div>
+          <div><h4>Crédibilité terrain avant tout</h4>
+          <p>Le visuel ne doit jamais sentir le studio. Il doit sentir le terrain — l'asphalte, la rue, la fiche de relance, le bloc-note dans la poche. La crédibilité prime sur l'élégance.</p></div>
+        </div>
+        <div class="pillar teal">
+          <div class="n">02</div>
+          <div><h4>Premium par la rigueur, pas par les effets</h4>
+          <p>Le premium se gagne par la cohérence typographique, la précision des grilles, la justesse des proportions. Aucun gradient flou. Aucun glow. La sobriété est l'esthétique.</p></div>
+        </div>
+        <div class="pillar">
+          <div class="n">03</div>
+          <div><h4>Le scroll comme journée terrain</h4>
+          <p>Le site raconte une journée de prospection : on part de la rue, on remonte au plan, on arrive sur la fiche, on déclenche l'action. Trois mouvements simples, jamais cinématiques.</p></div>
+        </div>
+        <div class="pillar">
+          <div class="n">04</div>
+          <div><h4>La donnée comme matière</h4>
+          <p>Chiffres en mono, formules visibles, échelles annotées. Le langage technique fait partie de la signature visuelle — comme sur les plans d'architecte ou les cartes IGN.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- NARRATIVE                                       -->
+<!-- =============================================== -->
+<section id="narratif" class="narrative" data-screen-label="03 Narrative">
+  <div class="shell">
+    <div class="narrative-head">
+      <div class="marker">
+        <span class="eyebrow">§ 02 · Narrative</span>
+      </div>
+      <div>
+        <h2 class="h-2" style="margin-bottom:16px">Trois écrans. Une journée.<br/>L'histoire que raconte le site.</h2>
+        <p class="lead">La landing déroule la même logique qu'une journée de prospection : on observe la rue, on consulte le plan, on agit depuis l'app. Pas une caméra cinématique — un parcours métier réel, lisible, défendable.</p>
+      </div>
+    </div>
+
+    <div class="narrative-stages">
+
+      <!-- STAGE 1 — RUE -->
+      <div class="stage">
+        <div class="preview preview-street">
+          <span class="label">étape 01 · rue</span>
+          <div class="b b1"><i class="w" style="left:30%;top:30%"></i><i class="w" style="left:65%;top:30%"></i></div>
+          <div class="b b2"><i class="w" style="left:30%;top:25%"></i></div>
+          <div class="b b3"><i class="w" style="left:25%;top:40%"></i><i class="w" style="left:65%;top:40%"></i></div>
+          <div class="b b4"></div>
+          <div class="b b5"><i class="w" style="left:30%;top:35%"></i></div>
+          <div class="pin p1"></div>
+          <div class="pin p2"></div>
+          <div class="pin p3"></div>
+        </div>
+        <div class="meta">
+          <span class="step-num">ÉTAPE 01</span>
+          <h4>La rue, telle qu'elle est</h4>
+          <p>Le commercial arrive devant une rangée de maisons. Aucune donnée encore — juste le territoire physique. C'est le point de départ de toute prospection.</p>
+        </div>
+      </div>
+
+      <!-- STAGE 2 — PLAN -->
+      <div class="stage">
+        <div class="preview preview-cadastre">
+          <span class="label">étape 02 · plan cadastral</span>
+          <svg viewBox="0 0 300 200" preserveAspectRatio="none">
+            <!-- streets -->
+            <g stroke="rgba(0,63,76,.45)" stroke-width="1.2" fill="none">
+              <path d="M 0 60 L 300 50" />
+              <path d="M 0 130 L 300 120" />
+              <path d="M 80 0 L 100 200" />
+              <path d="M 210 0 L 230 200" />
+            </g>
+            <!-- street names -->
+            <g font-family="JetBrains Mono" font-size="7" fill="rgba(120,110,94,.7)" letter-spacing="1">
+              <text x="6" y="46">rue Victor Hugo</text>
+              <text x="6" y="116">rue Libération</text>
+            </g>
+            <!-- buildings as parcels -->
+            <g fill="#FAF7F0" stroke="rgba(0,63,76,.5)" stroke-width=".7">
+              <rect x="14" y="68" width="56" height="46" />
+              <rect x="84" y="60" width="58" height="50" />
+              <rect x="148" y="58" width="56" height="50" />
+              <rect x="216" y="56" width="58" height="50" />
+              <rect x="14" y="138" width="56" height="48" />
+              <rect x="84" y="130" width="58" height="50" />
+              <rect x="148" y="128" width="56" height="50" />
+              <rect x="216" y="126" width="58" height="50" />
+            </g>
+            <!-- highlighted parcels (status) -->
+            <rect x="84" y="60" width="58" height="50" fill="#F8DFC9" stroke="#E25B14" stroke-width="1.5"/>
+            <rect x="148" y="128" width="56" height="50" fill="#F8DFC9" stroke="#E25B14" stroke-width="1.5"/>
+            <rect x="216" y="56" width="58" height="50" fill="#D9EEE2" stroke="#2E9461" stroke-width="1.2"/>
+            <rect x="14" y="138" width="56" height="48" fill="#D5E2EE" stroke="#3C7DAF" stroke-width="1.2"/>
+            <!-- numbers -->
+            <g font-family="JetBrains Mono" font-size="8" fill="#1F2A2E" font-weight="600">
+              <text x="105" y="88">27a</text>
+              <text x="170" y="158">25</text>
+              <text x="238" y="84">31</text>
+              <text x="34" y="166">8</text>
+            </g>
+          </svg>
+        </div>
+        <div class="meta">
+          <span class="step-num">ÉTAPE 02</span>
+          <h4>Le plan, enrichi par l'historique</h4>
+          <p>La même rue, mais lue par DoorTrack : chaque parcelle porte un statut, chaque numéro un score, chaque trottoir un historique. Le territoire devient lisible.</p>
+        </div>
+      </div>
+
+      <!-- STAGE 3 — APP -->
+      <div class="stage">
+        <div class="preview preview-app">
+          <span class="label">étape 03 · app</span>
+          <div class="app-mock">
+            <div class="greet">Bonjour<br/>Édouard 👋</div>
+            <div class="obj">
+              <div class="l">Objectif jour</div>
+              <div class="v">68%</div>
+              <div class="bar"><i></i></div>
+            </div>
+            <div class="kpis">
+              <div class="k t"><div class="lk">Portes</div><div class="vk">24/40</div></div>
+              <div class="k b"><div class="lk">Disc.</div><div class="vk">8/24</div></div>
+            </div>
+            <div class="cta-mock">Ouvrir ma carte</div>
+          </div>
+        </div>
+        <div class="meta">
+          <span class="step-num">ÉTAPE 03</span>
+          <h4>L'app, prête à déclencher</h4>
+          <p>Sur le terrain, la même donnée tient dans la poche. Score, prochain prospect chaud, relance en un clic. L'app n'explique pas — elle agit.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="narrative-foot">
+      <div class="stat">
+        <strong>3 écrans</strong>
+        <span>structure narrative simple, défendable</span>
+      </div>
+      <div class="stat">
+        <strong>scroll-linked</strong>
+        <span>chaque écran apparaît au scroll</span>
+      </div>
+      <div class="stat">
+        <strong>~0.8 s</strong>
+        <span>transition fade-in, jamais cinématique</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- DIRECTION ARTISTIQUE DÉTAILLÉE                  -->
+<!-- =============================================== -->
+<section class="alt" data-screen-label="04 DA détaillée">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker"><span class="num">§ 03</span><span class="id">Direction</span></div>
+      <span class="eyebrow">Direction artistique détaillée</span>
+    </div>
+
+    <div class="da-grid">
+
+      <div class="da-card">
+        <div class="demo demo-fonds"></div>
+        <h3>Fonds — la dégradation des tons sand</h3>
+        <p>Quatre tons chauds dégradés du plus sourd au plus clair : <b>Linen</b>, <b>Canvas-2</b>, <b>Paper</b>, <b>Paper-2</b>. La page alterne ces tons section après section, sans rupture brutale. Jamais de fond pur blanc en aplat — toujours une chaleur de papier.</p>
+        <div class="spec"><span>linen #E2DAC6</span><span>canvas-2 #E8E1D1</span><span>paper #FAF7F0</span><span>paper-2 #FFFFFF</span></div>
+      </div>
+
+      <div class="da-card">
+        <div class="demo demo-contrast"><i></i><i></i><i></i><i></i><i></i></div>
+        <h3>Contrastes — chauds, jamais glaciaux</h3>
+        <p>Le contraste se gagne entre tons chauds + l'orange terrain comme signal unique. Pas de noir profond, pas de "bi-tonalité dramatique". L'œil reste dans le même monde — un monde chaud et professionnel.</p>
+        <div class="spec"><span>contraste warm</span><span>1 seul accent terrain</span><span>WCAG AA min</span></div>
+      </div>
+
+      <div class="da-card">
+        <div class="demo demo-shadows"><div class="s s1"></div><div class="s s2"></div><div class="s s3"></div></div>
+        <h3>Ombres — chaudes, douces, jamais grises</h3>
+        <p>Trois niveaux. Toutes les ombres ont une teinte chaude (base #1F2A2E avec opacité maîtrisée) — jamais le gris neutre froid des SaaS génériques. La carte ne flotte pas — elle se pose.</p>
+        <div class="spec"><span>shadow-1 · subtile</span><span>shadow-2 · standard</span><span>shadow-3 · élevée</span></div>
+      </div>
+
+      <div class="da-card">
+        <div class="demo demo-borders"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div>
+        <h3>Bordures — fines, chaudes</h3>
+        <p>Bordures à 1 ou 1.5 px exclusivement. La line standard est un beige profond (#DDD5C1) qui se fond dans le canvas. Le focus se signale par bordure terrain + halo terrain 10%.</p>
+        <div class="spec"><span>1px</span><span>line · sable</span><span>line-2 · sable foncé</span><span>focus · terrain</span></div>
+      </div>
+
+      <div class="da-card">
+        <div class="demo demo-cards">
+          <div class="c"><h5>Score chaleur</h5><div class="mk">Très chaud</div><div class="v">82</div></div>
+          <div class="c"><h5>Portes frappées</h5><div class="mk">objectif 40</div><div class="v">24</div></div>
+        </div>
+        <h3>Cartes UI — paper sur canvas</h3>
+        <p>Les cartes sont en <b>paper #FAF7F0</b> posées sur <b>canvas #F1ECE0</b> — un saut de tonalité de 4% suffit. Bordure fine, rayon 14–20px. Aucune carte n'est jamais blanche pure : ça arracherait l'œil.</p>
+        <div class="spec"><span>radius 14–20</span><span>paper sur canvas</span><span>+4% luminance</span></div>
+      </div>
+
+      <div class="da-card">
+        <div class="demo demo-blocks"><div class="row"><div class="a"></div><div class="a"></div></div><div class="row"><div class="b">12 col · gutter 18</div><div class="b">120px section</div></div></div>
+        <h3>Blocs &amp; sections — la respiration</h3>
+        <p>120px de padding vertical entre sections. Grille 12 colonnes, gutter 18px, shell 1280px. Le blanc (sand) tient lieu de séparateur — pas besoin de lignes.</p>
+        <div class="spec"><span>section: 120px</span><span>grille: 12 col</span><span>shell: 1280</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- PALETTE                                         -->
+<!-- =============================================== -->
+<section id="palette" data-screen-label="05 Palette">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker"><span class="num">§ 04</span><span class="id">Palette</span></div>
+      <span class="eyebrow">Palette web</span>
+    </div>
+    <h2 class="h-2" style="margin-bottom:18px;max-width:24ch">Tonalité chaude. Teal d'ancre. Orange chirurgical.</h2>
+    <p class="lead" style="margin-bottom:48px">Une palette resserrée, chaude, lisible. Les <b>sand chauds</b> dominent toute la surface du site (90%+). Le <b>teal</b> reste l'ancre identitaire — pour les CTA secondaires, les surfaces accent, le monogramme. L'<b>orange terrain</b> ne s'utilise que pour signaler : CTA principal, focus, score chaud.</p>
+
+    <h4 class="eyebrow" style="margin-bottom:12px">Surfaces — les tons sand</h4>
+    <div class="palette-row">
+      <div class="swatch">
+        <div class="chip" style="background:#F1ECE0"><span class="n light-fg">Canvas</span></div>
+        <div class="info"><span class="hex">#F1ECE0</span><span class="role">Fond de page principal. Sand chaud.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#E8E1D1"><span class="n light-fg">Canvas-2</span></div>
+        <div class="info"><span class="hex">#E8E1D1</span><span class="role">Sections alternées. Rythme vertical.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#FAF7F0;border-bottom:1px solid var(--line)"><span class="n light-fg">Paper</span></div>
+        <div class="info"><span class="hex">#FAF7F0</span><span class="role">Cartes, surfaces de contenu.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#FFFFFF;border-bottom:1px solid var(--line)"><span class="n light-fg">Paper-2</span></div>
+        <div class="info"><span class="hex">#FFFFFF</span><span class="role">Relief rare — éléments flottants.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#E2DAC6"><span class="n light-fg">Linen</span></div>
+        <div class="info"><span class="hex">#E2DAC6</span><span class="role">Tertiaire chaud, footer, accents.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#DDD5C1"><span class="n light-fg">Line</span></div>
+        <div class="info"><span class="hex">#DDD5C1</span><span class="role">Bordures principales.</span></div>
+      </div>
+    </div>
+
+    <h4 class="eyebrow" style="margin:32px 0 12px">Identité — teal &amp; terrain</h4>
+    <div class="palette-row">
+      <div class="swatch">
+        <div class="chip" style="background:#003F4C"><span class="n">Teal</span></div>
+        <div class="info"><span class="hex">#003F4C</span><span class="role">Ancre primaire. CTA secondaire, monogramme.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#0A5566"><span class="n">Teal Hover</span></div>
+        <div class="info"><span class="hex">#0A5566</span><span class="role">État hover du teal.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#BFD4D9"><span class="n light-fg">Teal Ink</span></div>
+        <div class="info"><span class="hex">#BFD4D9</span><span class="role">Surface accent teal — badges, blocs.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#E25B14"><span class="n">Terrain</span></div>
+        <div class="info"><span class="hex">#E25B14</span><span class="role">Signal unique. CTA primaire, focus, score chaud.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#F8DFC9"><span class="n light-fg">Terrain Soft</span></div>
+        <div class="info"><span class="hex">#F8DFC9</span><span class="role">Surface accent terrain — score, alerte.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#F3B179"><span class="n light-fg">Ember</span></div>
+        <div class="info"><span class="hex">#F3B179</span><span class="role">Glow doux, hover sur paper, accent éditorial.</span></div>
+      </div>
+    </div>
+
+    <h4 class="eyebrow" style="margin:32px 0 12px">Texte &amp; fonctionnelles</h4>
+    <div class="palette-row">
+      <div class="swatch">
+        <div class="chip" style="background:#1F2A2E"><span class="n">Ink</span></div>
+        <div class="info"><span class="hex">#1F2A2E</span><span class="role">Texte fort. Pas un noir — un anthracite chaud.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#786E5E"><span class="n">Muted</span></div>
+        <div class="info"><span class="hex">#786E5E</span><span class="role">Texte secondaire — warm grey.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#2E9461"><span class="n">Success</span></div>
+        <div class="info"><span class="hex">#2E9461</span><span class="role">Signé, succès, progression positive.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#3C7DAF"><span class="n">Info</span></div>
+        <div class="info"><span class="hex">#3C7DAF</span><span class="role">Statut "en cours" — usage rare.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#6A4FB3"><span class="n">Plum</span></div>
+        <div class="info"><span class="hex">#6A4FB3</span><span class="role">Signature, étape finale.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#B83020"><span class="n">Danger</span></div>
+        <div class="info"><span class="hex">#B83020</span><span class="role">Refus, erreur critique — chirurgie totale.</span></div>
+      </div>
+    </div>
+
+    <div class="palette-roles">
+      <div class="h"><span>Token</span><span>Rôle clé</span><span>Règle d'usage</span></div>
+      <div class="r"><span class="tok"><i style="background:#F1ECE0"></i>Canvas</span><p>Fond dominant — toutes les sections sauf alternées.</p><small>≥ 65% de la surface totale du site</small></div>
+      <div class="r"><span class="tok"><i style="background:#FAF7F0"></i>Paper</span><p>Toutes les cartes, blocs de contenu, listes.</p><small>Posé sur canvas, jamais en plein écran</small></div>
+      <div class="r"><span class="tok"><i style="background:#E25B14"></i>Terrain</span><p>Signal unique : CTA primaire, focus, accent éditorial.</p><small>≤ 4% de la surface (chirurgie)</small></div>
+      <div class="r"><span class="tok"><i style="background:#003F4C"></i>Teal</span><p>Ancre identitaire : CTA secondaire, monogramme, en-têtes accent.</p><small>Jamais en aplat plein écran</small></div>
+      <div class="r"><span class="tok"><i style="background:#1F2A2E"></i>Ink</span><p>Texte fort — un anthracite chaud, jamais un noir pur.</p><small>Aucun #000 dans le site</small></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- TYPOGRAPHY                                      -->
+<!-- =============================================== -->
+<section id="typo" class="paper-sec" data-screen-label="06 Typo">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker"><span class="num">§ 05</span><span class="id">Typographie</span></div>
+      <span class="eyebrow">Typographie web</span>
+    </div>
+    <h2 class="h-2" style="margin-bottom:18px;max-width:24ch">Manrope, généreuse. JetBrains Mono, précise.</h2>
+    <p class="lead" style="margin-bottom:48px">Une seule paire — la même que l'app. <b>Manrope</b> porte la voix produit : humaine, géométrique, lisible. <b>JetBrains Mono</b> incarne le métier : adresses, scores, formules, coordonnées. La hiérarchie se gagne par <b>l'écart d'échelle</b> (×8 entre display et body), pas par la couleur.</p>
+
+    <div class="typo-pair">
+      <div class="type-feature">
+        <div class="specimen">Aa<em>116</em></div>
+        <div class="info">
+          <div class="name">Manrope</div>
+          <div class="meta">Display · 300 / 500 / 700 / 800</div>
+        </div>
+      </div>
+      <div class="type-scale">
+        <div class="ts-row"><span class="role">Display</span><div class="sample ts-d">Le terrain mérite un vrai outil.</div></div>
+        <div class="ts-row"><span class="role">H1</span><div class="sample ts-h1">Pas un CRM. Un cockpit.</div></div>
+        <div class="ts-row"><span class="role">H2</span><div class="sample ts-h2">Pour le terrain.</div></div>
+        <div class="ts-row"><span class="role">H3</span><div class="sample ts-h3">Mes prospects, priorisés.</div></div>
+        <div class="ts-row"><span class="role">Body</span><div class="sample ts-b">Frapper 27 portes avant 20h, suivre 4 prospects chauds rue Victor Hugo.</div></div>
+        <div class="ts-row"><span class="role">Label</span><div class="sample ts-l">Objectif du jour</div></div>
+      </div>
+    </div>
+
+    <div class="typo-pair">
+      <div class="type-feature mono">
+        <div class="specimen">82<em>/100</em></div>
+        <div class="info">
+          <div class="name">JetBrains Mono</div>
+          <div class="meta">Technical · 400 / 500 / 600 / 700</div>
+        </div>
+      </div>
+      <div class="type-scale">
+        <div class="ts-row"><span class="role">Numéral</span><div class="sample" style="font-family:var(--mono);font-size:36px;font-weight:700;letter-spacing:-.02em;color:var(--ink)">48.6837°N</div></div>
+        <div class="ts-row"><span class="role">Métrique</span><div class="sample" style="font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink)">27 / 40 portes</div></div>
+        <div class="ts-row"><span class="role">Formule</span><div class="sample ts-m">33% = 8 disc / 24 portes</div></div>
+        <div class="ts-row"><span class="role">Caption</span><div class="sample" style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">DT/DA/2026-05 — v2</div></div>
+        <div class="ts-row"><span class="role">Marker</span><div class="sample" style="font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--terrain);font-weight:600">§ 02 · NARRATIVE</div></div>
+      </div>
+    </div>
+
+    <div class="da-grid" style="margin-top:36px">
+      <div class="da-card" style="background:var(--canvas-2)">
+        <h3>Hiérarchie — par l'échelle, pas par la couleur</h3>
+        <p>Entre deux niveaux, un facteur d'échelle minimum de <b>1,5×</b>. Entre display et body : facteur <b>×8</b>. Aucune couleur n'est utilisée pour signifier la hiérarchie. Le titre noir, le body gris — c'est tout.</p>
+        <div class="spec"><span>display: 116px</span><span>body: 15px</span><span>ratio: ×8</span></div>
+      </div>
+      <div class="da-card" style="background:var(--canvas-2)">
+        <h3>Ton perçu — pro, chaud, français</h3>
+        <p>Manrope donne une voix <b>contemporaine, géométrique, claire</b> — sans froideur. Le mono ancre dans le métier : adresses, scores, dates. Ensemble, l'effet est celui d'un cabinet d'études sérieux et chaleureux — pas d'une licorne SF.</p>
+        <div class="spec"><span>premium</span><span>chaud</span><span>technique</span><span>FR-natif</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- SYSTÈME VISUEL                                  -->
+<!-- =============================================== -->
+<section id="systeme" data-screen-label="07 Système visuel">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker"><span class="num">§ 06</span><span class="id">Système visuel</span></div>
+      <span class="eyebrow">Système visuel</span>
+    </div>
+    <h2 class="h-2" style="margin-bottom:18px;max-width:22ch">Plan d'architecte, pas tableau de commande.</h2>
+    <p class="lead" style="margin-bottom:48px">Le système visuel évite tout ce qui pourrait évoquer un dashboard sci-fi : pas de néon, pas de glow, pas de map satellite, pas de 3D futuriste. À la place : des traits fins comme sur un plan cadastral, des polygones plats colorés par statut, des photographies terrain crédibles.</p>
+
+    <div class="system-block">
+
+      <div class="sys-card">
+        <div class="preview">
+          <div class="icon-row">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="1.5"/><circle cx="15" cy="12" r="1"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M21 12c0 4.4-4 8-9 8a9.7 9.7 0 0 1-4-.8L3 21l1.8-4.4A8 8 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"/><path d="M9 3v15M15 6v15" style="opacity:.5"/></svg>
+          </div>
+        </div>
+        <h4>Iconographie</h4>
+        <p>Outline, grille <b>24×24</b>, trait <b>1,5px</b>. Coins arrondis. Pas d'icônes remplies sauf badges. Référence : <b>Lucide / Phosphor Regular</b>. Tone : technique mais chaleureux, jamais geek.</p>
+      </div>
+
+      <div class="sys-card">
+        <div class="preview bldg-preview">
+          <div class="bg-grid"></div>
+          <div class="b" style="top:12%;left:14%;width:22%;height:18%"></div>
+          <div class="b hot" style="top:12%;left:40%;width:18%;height:18%"></div>
+          <div class="b" style="top:12%;left:62%;width:22%;height:18%"></div>
+          <div class="b signed" style="top:36%;left:14%;width:18%;height:18%"></div>
+          <div class="b" style="top:36%;left:36%;width:22%;height:18%"></div>
+          <div class="b hot" style="top:36%;left:62%;width:22%;height:18%"></div>
+          <div class="b" style="top:60%;left:20%;width:22%;height:18%"></div>
+          <div class="b cool" style="top:60%;left:46%;width:18%;height:18%"></div>
+          <div class="b" style="top:60%;left:68%;width:22%;height:18%"></div>
+        </div>
+        <h4>Bâtiments — parcelles cadastrales</h4>
+        <p>Plats, rectangulaires, bordés. Couleur = statut. <b>Terrain</b> pour chaud, <b>vert</b> pour signé, <b>bleu</b> pour en cours. Comme sur un plan cadastral — pas comme une 3D Mapbox.</p>
+      </div>
+
+      <div class="sys-card">
+        <div class="preview map-preview">
+          <svg viewBox="0 0 280 160">
+            <g stroke="rgba(0,63,76,.45)" stroke-width="1" fill="none">
+              <path d="M0 70 L280 60"/>
+              <path d="M0 110 L280 100"/>
+              <path d="M80 0 L100 160"/>
+              <path d="M200 0 L220 160"/>
+            </g>
+            <g stroke="rgba(0,63,76,.2)" stroke-width="1" stroke-dasharray="2 4" fill="none">
+              <path d="M0 30 L280 22"/>
+              <path d="M0 140 L280 130"/>
+            </g>
+            <g font-family="JetBrains Mono" font-size="7" fill="rgba(120,110,94,.6)" letter-spacing="1">
+              <text x="6" y="56">rue Hugo</text>
+              <text x="6" y="96">rue Libération</text>
+            </g>
+          </svg>
+        </div>
+        <h4>Maps — plan cadastral, pas satellite</h4>
+        <p>Les cartes du site sont des <b>relevés techniques</b> : traits fins <b>teal 45%</b>, dashed pour les rues secondaires, labels en mono 7–10px. Atmosphère : IGN sur papier vélin, pas Mapbox dark mode.</p>
+      </div>
+
+      <div class="sys-card">
+        <div class="preview illu-preview"><div class="core"></div></div>
+        <h4>Illustrations &amp; 3D</h4>
+        <p>Quand on dessine, on dessine des <b>objets matériels</b> : maquettes, blocs colorés, cartes pliées, fiches papier. Pas d'illustrations vectorielles "tech" génériques. Pas de mascottes.</p>
+      </div>
+
+      <div class="sys-card">
+        <div class="preview trans-preview"></div>
+        <h4>Transitions visuelles</h4>
+        <p>Les transitions sont <b>discrètes</b> : un fade-in léger (200ms), un déplacement Y de 12px, jamais plus. Pas de "camera lift" cinématique. Le site est un document à lire, pas un teaser à regarder.</p>
+      </div>
+
+      <div class="sys-card">
+        <div class="preview ws-preview"><div class="dot d1"></div>l'espace comme silence<div class="dot d2"></div></div>
+        <h4>Logique du blanc</h4>
+        <p>Le sand n'est pas du vide — c'est du <b>silence</b>. Plus l'information est dense, plus l'espace l'entoure. Le silence rassure : il prouve qu'on a confiance dans ce qu'on montre.</p>
+      </div>
+
+    </div>
+
+    <h4 class="eyebrow" style="margin:48px 0 12px">Photographie — terrain réel, jamais studio</h4>
+    <p class="lead" style="margin-bottom:32px">Les images du site montrent des <b>équipes commerciales en situation</b> : un manager en réunion debout, un vendeur avec son téléphone et son carnet, une rue résidentielle française au crépuscule. Lumière naturelle, palette chaude, jamais stock photo souriant.</p>
+
+    <div class="photo-row">
+      <div class="photo-tile">
+        <span class="cap">01</span>
+        <span class="lbl">Équipe terrain · Nancy</span>
+      </div>
+      <div class="photo-tile b">
+        <span class="cap">02</span>
+        <span class="lbl">Manager · brief secteur</span>
+      </div>
+      <div class="photo-tile c">
+        <span class="cap">03</span>
+        <span class="lbl">Rue résidentielle · 54</span>
+      </div>
+    </div>
+    <div class="photo-note">Placeholders — à remplacer par une banque photo terrain, réalisée localement (Nancy / Lorraine / France périphérique).</div>
+
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- ANIMATIONS                                      -->
+<!-- =============================================== -->
+<section id="anim" class="alt" data-screen-label="08 Motion">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker"><span class="num">§ 07</span><span class="id">Motion</span></div>
+      <span class="eyebrow">Animations &amp; narration</span>
+    </div>
+    <h2 class="h-2" style="margin-bottom:18px;max-width:22ch">Discrètes. Utiles. Jamais cinématiques.</h2>
+    <p class="lead" style="margin-bottom:48px">Les animations servent la lecture, pas la démonstration de talent. Quelques fade-in au scroll, un compteur qui s'incrémente, une carte qui se peint. C'est tout. <b>Aucune animation décorative</b>. Le site est un document à parcourir, pas une démo de motion design.</p>
+
+    <div class="anim-grid">
+
+      <div class="anim-card">
+        <div class="where"><span>HERO</span><span>FIRST FOLD</span></div>
+        <h3>01 — Hero quiet</h3>
+        <p>Le hero ne bouge pas. Pas de pulse, pas de glow, pas de "map breath". La fiche prospect est <b>statique</b>. La seule animation : un léger fade-in du contenu (300ms) au chargement. C'est tout.</p>
+        <div class="meta">
+          <div class="m"><div class="l">Durée</div><div class="v">300ms (load)</div></div>
+          <div class="m"><div class="l">Intensité</div><div class="v">imperceptible</div></div>
+          <div class="m"><div class="l">Objectif</div><div class="v">stabilité</div></div>
+        </div>
+      </div>
+
+      <div class="anim-card">
+        <div class="where"><span>NARRATIVE</span><span>§ 02</span></div>
+        <h3>02 — Step fade-in</h3>
+        <p>Les trois étapes (rue → plan → fiche) apparaissent en cascade au scroll : fade-in + lift Y de 12px, délai 150ms entre chacune. Easing <code class="mono">cubic-bezier(.2,.8,.2,1)</code>. Sobre, jamais cinématique.</p>
+        <div class="meta">
+          <div class="m"><div class="l">Durée</div><div class="v">500ms</div></div>
+          <div class="m"><div class="l">Trigger</div><div class="v">in-view (1×)</div></div>
+          <div class="m"><div class="l">Objectif</div><div class="v">scander la lecture</div></div>
+        </div>
+      </div>
+
+      <div class="anim-card">
+        <div class="where"><span>BÉNÉFICES</span><span>§ 03 / 04</span></div>
+        <h3>03 — Number tickup</h3>
+        <p>Les chiffres-clés s'incrémentent en entrant dans la viewport : 0 → 68%, 0 → 27/40. Durée 1.2s, easing out-cubic. <b>Une seule fois</b>, pas de boucle. Effet "le tableau se peuple devant moi".</p>
+        <div class="meta">
+          <div class="m"><div class="l">Durée</div><div class="v">1.2s</div></div>
+          <div class="m"><div class="l">Trigger</div><div class="v">in-view (1×)</div></div>
+          <div class="m"><div class="l">Objectif</div><div class="v">crédibiliser la donnée</div></div>
+        </div>
+      </div>
+
+      <div class="anim-card">
+        <div class="where"><span>DÉMONSTRATION</span><span>§ 05</span></div>
+        <h3>04 — Status paint</h3>
+        <p>Sur la carte démo : les parcelles apparaissent en paper vide, puis se colorent une à une selon leur statut (terrain / signed / cool). Cadence 80ms/parcelle. Effet "DoorTrack lit le territoire avec vous".</p>
+        <div class="meta">
+          <div class="m"><div class="l">Durée</div><div class="v">~2s total</div></div>
+          <div class="m"><div class="l">Trigger</div><div class="v">in-view + hover replay</div></div>
+          <div class="m"><div class="l">Objectif</div><div class="v">démontrer la promesse</div></div>
+        </div>
+      </div>
+
+      <div class="anim-card">
+        <div class="where"><span>FONCTIONNEMENT</span><span>§ 06</span></div>
+        <h3>05 — Step reveal</h3>
+        <p>Les 4 étapes (Frapper / Saisir / Suivre / Convertir) se révèlent l'une après l'autre au scroll. Fade + lift 16px. L'étape active reste légèrement plus contrastée. Pas de rebond, pas d'overshoot.</p>
+        <div class="meta">
+          <div class="m"><div class="l">Durée</div><div class="v">600ms</div></div>
+          <div class="m"><div class="l">Trigger</div><div class="v">scroll-sync</div></div>
+          <div class="m"><div class="l">Objectif</div><div class="v">lisibilité du flux</div></div>
+        </div>
+      </div>
+
+      <div class="anim-card">
+        <div class="where"><span>CTA</span><span>§ 07</span></div>
+        <h3>06 — CTA hover lift</h3>
+        <p>Au hover du CTA principal : élévation très douce (shadow-2 → shadow-3, 200ms). Pas d'effet magnétique, pas de glow. Au focus clavier : halo terrain 12% sur 4px. Discret, lisible, accessible.</p>
+        <div class="meta">
+          <div class="m"><div class="l">Durée</div><div class="v">200ms</div></div>
+          <div class="m"><div class="l">Intensité</div><div class="v">lift shadow</div></div>
+          <div class="m"><div class="l">Objectif</div><div class="v">feedback tactile</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="anim-bad">
+      <div>
+        <span class="eyebrow">À éviter absolument</span>
+        <h3>Les pièges de l'IA-coded</h3>
+      </div>
+      <ul>
+        <li><b>Auto-play permanent</b> de séquences vidéo dans le hero — sent l'agence créative qui s'écoute.</li>
+        <li><b>Parallax exagéré</b> qui désynchronise le scroll — donne le mal de mer.</li>
+        <li><b>Texte qui scramble / decode</b> — gadget cyberpunk, datant de 2018.</li>
+        <li><b>Glow néon, halo bleu lumineux, particules</b> — code "sci-fi", écrase l'identité terrain.</li>
+        <li><b>3D photoréaliste d'une ville</b> qui tourne lentement — caricature de pitch deck SaaS.</li>
+        <li><b>Compteur "+50 clients heureux"</b> qui s'incrémente — symptôme du SaaS générique.</li>
+        <li><b>Apparitions trop systématiques</b> au scroll : chaque mot qui fade-in tue le rythme.</li>
+        <li><b>Spring physics exagérée</b> (bounce / overshoot) — donne un ton enfantin, jamais premium.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- LANDING STRUCTURE                               -->
+<!-- =============================================== -->
+<section id="landing" class="structure-section" data-screen-label="09 Landing">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker"><span class="num">§ 08</span><span class="id">Landing</span></div>
+      <span class="eyebrow">Structure landing page — section par section</span>
+    </div>
+    <h2 class="h-2" style="margin-bottom:18px;max-width:22ch">Sept sections. Une démonstration sobre.</h2>
+    <p class="lead" style="margin-bottom:48px">La landing déroule la même logique métier qu'une journée de prospection. Chaque section a un rôle précis, une mise en page propre, et déclenche une animation discrète. La densité augmente progressivement : hero aéré → démonstration dense → CTA dégagé.</p>
+
+    <div class="landing-list">
+
+      <!-- HERO -->
+      <div class="landing-section">
+        <div class="n"><b>01</b><span>HERO</span></div>
+        <div class="info">
+          <h3>Manifeste tranquille sur canvas</h3>
+          <p>Rôle : poser le ton en 2 secondes. Pas de vidéo, pas d'auto-play. Un titre fort qui parle <b>au manager terrain</b>, une promesse simple, une fiche prospect crédible à droite. C'est tout.</p>
+          <p style="font-weight:600;color:var(--ink);margin-top:12px">Traitement</p>
+          <ul>
+            <li>Fond canvas, grille très subtile en arrière-plan</li>
+            <li>Headline 110–116px à gauche, fiche prospect à droite</li>
+            <li>Deux CTA hiérarchisés (primaire terrain + secondaire outline)</li>
+            <li>Bandeau "trust" : avatars + mention "conçu avec des managers terrain"</li>
+            <li>Strate stats sobre en bas (10 sections, 7 landing, etc.)</li>
+          </ul>
+          <div class="tags"><span>densité: basse</span><span>canvas</span><span>animation: fade-in 300ms</span></div>
+        </div>
+        <div class="mockup">
+          <span class="marker">SECTION 01 — HERO</span>
+          <div class="mk-hero">
+            <div class="map-decor"></div>
+            <div class="pin-decor pd1"></div>
+            <div class="pin-decor pd2"></div>
+            <div class="ttl">Le terrain<br/>mérite un<br/><em>vrai</em> outil.</div>
+            <div class="sub">Cockpit de prospection porte-à-porte pour managers d'équipes commerciales.</div>
+            <div class="btns">
+              <div class="b">Voir l'app →</div>
+              <div class="b b2">Démo 15 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROOF -->
+      <div class="landing-section">
+        <div class="n"><b>02</b><span>PREUVE</span></div>
+        <div class="info">
+          <h3>Bande de crédibilité — sans fanfare</h3>
+          <p>Rôle : poser la légitimité sans en faire trop. Quelques noms d'équipes pilotes alignés discrètement, une métrique forte issue d'un pilote ("3× plus de relances exécutées"), une citation courte d'un manager nommé.</p>
+          <p style="font-weight:600;color:var(--ink);margin-top:12px">Traitement</p>
+          <ul>
+            <li>Fond paper continu — rythme : canvas → paper</li>
+            <li>Logos en muted 60% d'opacité, alignés sur une ligne</li>
+            <li>Une métrique XXL à droite, attribuée à un nom + rôle</li>
+            <li>Aucune photo de personne — privilégier l'abstraction</li>
+          </ul>
+          <div class="tags"><span>densité: basse</span><span>paper</span><span>1 stat XXL</span></div>
+        </div>
+        <div class="mockup">
+          <span class="marker">SECTION 02 — PREUVE</span>
+          <div class="mk-proof">
+            <div class="lg"></div><div class="lg"></div><div class="lg"></div><div class="lg"></div>
+            <div class="lg"></div><div class="lg"></div><div class="lg"></div><div class="lg"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENEF VENDEUR / MANAGER -->
+      <div class="landing-section">
+        <div class="n"><b>03</b><span>VENDEUR × MANAGER</span></div>
+        <div class="info">
+          <h3>Split — deux métiers, un outil</h3>
+          <p>Rôle : montrer que DoorTrack résout <b>deux douleurs distinctes</b>. Le vendeur veut savoir quoi faire maintenant. Le manager veut voir ce qui se passe en zone. Section en deux moitiés équilibrées, transition entre canvas et paper.</p>
+          <p style="font-weight:600;color:var(--ink);margin-top:12px">Traitement</p>
+          <ul>
+            <li>Split vertical 50/50, transition douce entre canvas et paper</li>
+            <li>Chaque côté : headline + 3 bullets + mini-mockup</li>
+            <li>Mockup vendeur = écran mobile / Mockup manager = vue secteur desktop</li>
+            <li>Aucune flèche entre les deux — la mise en page suffit</li>
+          </ul>
+          <div class="tags"><span>densité: moyenne</span><span>split canvas/paper</span></div>
+        </div>
+        <div class="mockup">
+          <span class="marker">SECTION 03 — DUAL AUDIENCE</span>
+          <div class="mk-split">
+            <div class="left">
+              <h5>Vendeur terrain</h5>
+              <div class="ch">Vitesse d'exécution</div>
+              <p>Saisir un statut en 3 secondes. Voir le prochain prospect chaud en un swipe.</p>
+            </div>
+            <div class="right">
+              <h5>Manager</h5>
+              <div class="ch">Lisibilité de zone</div>
+              <p>Voir qui passe où, avec quel résultat, sur quel secteur. Sans rien demander.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO MAP -->
+      <div class="landing-section">
+        <div class="n"><b>04</b><span>DÉMONSTRATION</span></div>
+        <div class="info">
+          <h3>La carte qui se peint — pièce maîtresse</h3>
+          <p>Rôle : <b>l'instant clé du site</b>. Une carte interactive (scroll-driven ou hover) où les bâtiments se colorent un à un selon leur statut. C'est là qu'on prouve la promesse, sans mots inutiles.</p>
+          <p style="font-weight:600;color:var(--ink);margin-top:12px">Traitement</p>
+          <ul>
+            <li>Fond canvas, carte large 80% largeur, légende sobre à droite</li>
+            <li>Animation Status paint déclenchée à l'entrée</li>
+            <li>3 micro-annotations qui apparaissent en séquence ("12 portes chaudes ici")</li>
+            <li>Aucun texte autour qui ne soit pas absolument utile</li>
+          </ul>
+          <div class="tags"><span>densité: haute (visuel)</span><span>canvas</span><span>status paint</span></div>
+        </div>
+        <div class="mockup">
+          <span class="marker">SECTION 04 — MAP DEMO</span>
+          <div class="mk-demo">
+            <div class="head"><span>secteur 03 · Fontenoy</span><span>27 / 40</span></div>
+            <div class="map-container">
+              <div class="pn hot" style="top:28%;left:38%"></div>
+              <div class="pn hot" style="top:50%;left:62%"></div>
+              <div class="pn cool" style="top:18%;left:24%"></div>
+              <div class="pn cool" style="top:64%;left:30%"></div>
+              <div class="pn cool" style="top:40%;left:78%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOW IT WORKS -->
+      <div class="landing-section">
+        <div class="n"><b>05</b><span>FONCTIONNEMENT</span></div>
+        <div class="info">
+          <h3>Quatre verbes, quatre étapes</h3>
+          <p>Rôle : démystifier en 30 secondes. <b>Frapper → Saisir → Suivre → Convertir</b>. Liste verticale, un verbe par ligne, capture mobile qui change selon l'étape active au scroll.</p>
+          <p style="font-weight:600;color:var(--ink);margin-top:12px">Traitement</p>
+          <ul>
+            <li>Fond paper. 2 colonnes : liste à gauche (55%), mockup mobile à droite (45%)</li>
+            <li>Chaque étape : numéro mono, verbe XL, 1 ligne d'explication</li>
+            <li>L'étape active se met en relief ; le mockup mobile suit le scroll</li>
+            <li>Pas de pictos décoratifs — les numéros suffisent</li>
+          </ul>
+          <div class="tags"><span>densité: moyenne</span><span>paper</span><span>scroll-sync</span></div>
+        </div>
+        <div class="mockup">
+          <span class="marker">SECTION 05 — HOW</span>
+          <div class="mk-steps">
+            <div class="st"><div class="num">01</div><div>Frapper — la carte est ouverte</div></div>
+            <div class="st"><div class="num">02</div><div>Saisir — statut en 3 secondes</div></div>
+            <div class="st"><div class="num">03</div><div>Suivre — score chaleur calculé</div></div>
+            <div class="st"><div class="num">04</div><div>Convertir — relance en un clic</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="landing-section">
+        <div class="n"><b>06</b><span>CTA</span></div>
+        <div class="info">
+          <h3>Conclusion calme — sur canvas, pas sur obsidian</h3>
+          <p>Rôle : convertir, sans crier. Une phrase de clôture forte mais posée, deux CTA hiérarchisés (primaire terrain + secondaire teal). <b>Aucun fond noir dramatique</b> — la rupture finale serait gratuite.</p>
+          <p style="font-weight:600;color:var(--ink);margin-top:12px">Traitement</p>
+          <ul>
+            <li>Fond canvas avec grille très subtile, hauteur ~60vh</li>
+            <li>Titre 88px centré ou aligné à gauche, max 12 mots</li>
+            <li>CTA primaire terrain + secondaire teal en pill</li>
+            <li>Sous-ligne courte de réassurance : "Démo en 15 min · sans engagement"</li>
+          </ul>
+          <div class="tags"><span>densité: basse</span><span>canvas</span><span>animation CTA hover</span></div>
+        </div>
+        <div class="mockup">
+          <span class="marker">SECTION 06 — CTA</span>
+          <div class="mk-cta">
+            <h5>Vous prospectez<br/>déjà. <em>Voyons</em><br/>combien mieux.</h5>
+            <div class="b">Réserver une démo →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="landing-section">
+        <div class="n"><b>07</b><span>FOOTER</span></div>
+        <div class="info">
+          <h3>Pied de page comme fiche technique</h3>
+          <p>Rôle : structurer, rassurer, lier. Le footer prend la forme d'une <b>fiche technique cadastrale</b> : coordonnées de l'entreprise, version, liens par colonnes, signature mono.</p>
+          <p style="font-weight:600;color:var(--ink);margin-top:12px">Traitement</p>
+          <ul>
+            <li>Fond paper, hauteur généreuse, bordure haute fine</li>
+            <li>Tout en mono 11–13px sauf le nom de marque</li>
+            <li>4 colonnes : Produit / Société / Ressources / Contact</li>
+            <li>Méta-ligne tout en bas : version, build, copyright, coordonnées GPS</li>
+          </ul>
+          <div class="tags"><span>densité: dense</span><span>paper</span><span>mono everywhere</span></div>
+        </div>
+        <div class="mockup">
+          <span class="marker">SECTION 07 — FOOTER</span>
+          <div class="mk-footer">
+            <div class="links"><span>PRODUIT</span><span>SOCIÉTÉ</span><span>LÉGAL</span><span>CONTACT</span></div>
+            <div class="links"><span>fonctionnalités</span><span>équipe</span><span>cgu</span><span>email</span></div>
+            <div class="brand-row"><span>doortrack.io</span><span>v1.0 · 48.6837°N · 2026</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- DESIGN SYSTEM                                   -->
+<!-- =============================================== -->
+<section id="ds" class="paper-sec" data-screen-label="10 Design system">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker"><span class="num">§ 09</span><span class="id">Design system</span></div>
+      <span class="eyebrow">Mini design system</span>
+    </div>
+    <h2 class="h-2" style="margin-bottom:18px;max-width:22ch">Atomique. Tokenisable. Prêt demain matin.</h2>
+    <p class="lead" style="margin-bottom:48px">Un système réduit à l'essentiel : tokens couleurs, rayons, espacements, boutons, champs, badges, KPI box, listes. Tout est nommé, mesuré, prêt à devenir un set de variables CSS ou un fichier de tokens Figma.</p>
+
+    <div class="ds-grid">
+
+      <div class="ds-card span-6">
+        <h4>Rayons d'angles <small>radii</small></h4>
+        <div class="radii">
+          <div class="r r1">6</div>
+          <div class="r r2">12</div>
+          <div class="r r3">20</div>
+          <div class="r r4">32</div>
+        </div>
+        <p style="font-size:13px;color:var(--muted)">6px (champs, badges) · 12px (boutons, KPI box) · 20px (cartes, sections) · 32px (containers majeurs).</p>
+      </div>
+
+      <div class="ds-card span-6">
+        <h4>Espacements <small>spacing scale</small></h4>
+        <div class="spacing">
+          <div class="sp s4"></div><div class="sp s8"></div><div class="sp s12"></div><div class="sp s16"></div><div class="sp s24"></div><div class="sp s32"></div><div class="sp s48"></div><div class="sp s64"></div>
+        </div>
+        <div class="spacing-label"><span>4</span><span>8</span><span>12</span><span>16</span><span>24</span><span>32</span><span>48</span><span>64</span></div>
+        <p style="font-size:13px;color:var(--muted)">Échelle basée sur 4. Section verticale: 120px. Card padding: 24–36. Inter-elements: 8/16.</p>
+      </div>
+
+      <div class="ds-card span-6">
+        <h4>Boutons <small>buttons</small></h4>
+        <div class="ds-btn">
+          <button class="btn btn-primary">Réserver une démo</button>
+          <button class="btn btn-dark">Voir l'app</button>
+          <button class="btn btn-outline">En savoir plus</button>
+          <button class="btn btn-ghost">Tarifs</button>
+        </div>
+        <div class="ds-btn">
+          <button class="btn btn-sm btn-primary">CTA mini</button>
+          <button class="btn btn-sm btn-outline">Filtre</button>
+        </div>
+        <p style="font-size:13px;color:var(--muted)"><b>Primary terrain</b> = 1 par section maximum. <b>Dark teal</b> = secondaire. <b>Outline</b> = tertiaire. Pills (radius 99).</p>
+      </div>
+
+      <div class="ds-card span-6">
+        <h4>Champs <small>inputs</small></h4>
+        <div class="ds-fields">
+          <div class="field">Votre email professionnel</div>
+          <div class="field focus"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7510111a0014071135111a1a07010714161e5b1c1a">[email&#160;protected]</a></div>
+        </div>
+        <p style="font-size:13px;color:var(--muted)">Hauteur 46. Rayon 10. Fond paper. Focus = bordure terrain + halo terrain 10%. Label au-dessus, pas flottant.</p>
+      </div>
+
+      <div class="ds-card span-4">
+        <h4>Badges <small>tags</small></h4>
+        <div class="ds-badges">
+          <span class="bd bd-new">Beta</span>
+          <span class="bd bd-pro">Pro</span>
+          <span class="bd bd-ok">Signé</span>
+          <span class="bd bd-info">Bientôt</span>
+        </div>
+        <p style="font-size:13px;color:var(--muted)">Mono. 10px. Letter-spacing .12em. Padding 5/9. Rayon 6. Fond à ~15% de la couleur sémantique.</p>
+      </div>
+
+      <div class="ds-card span-4">
+        <h4>KPI Box <small>data card</small></h4>
+        <div class="ds-kpi">
+          <div class="kpi-b"><div class="l">Portes</div><div class="v">24 / 40</div><div class="s">60% obj.</div></div>
+          <div class="kpi-b"><div class="l">Score</div><div class="v">82</div><div class="s">très chaud</div></div>
+        </div>
+        <p style="font-size:13px;color:var(--muted)">Bordure 1px line. Bottom-bar 2px terrain. Label mono 10px. Valeur Manrope 800 20–24px.</p>
+      </div>
+
+      <div class="ds-card span-4">
+        <h4>Puces &amp; listes <small>lists</small></h4>
+        <div class="ds-list">
+          <div class="l"><div class="bx"></div>Saisie statut en 3 secondes</div>
+          <div class="l"><div class="bx"></div>Score chaleur expliqué</div>
+          <div class="l"><div class="bx"></div>Carte secteur partagée</div>
+        </div>
+        <p style="font-size:13px;color:var(--muted)">Pas de bullets ronds. Box 16×16 avec flèche mono terrain. Texte 13px ink-soft.</p>
+      </div>
+
+      <div class="ds-card span-12">
+        <h4>Règles de cohérence transverses <small>guarantees</small></h4>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:6px">
+          <div>
+            <div class="eyebrow" style="margin-bottom:6px">Couleur</div>
+            <p style="font-size:13px;color:var(--muted);line-height:1.55">Un seul accent terrain par section. Jamais de noir pur (#000). Le teal est l'ancre — pas un substitut.</p>
+          </div>
+          <div>
+            <div class="eyebrow" style="margin-bottom:6px">Typographie</div>
+            <p style="font-size:13px;color:var(--muted);line-height:1.55">Manrope ou JetBrains Mono — rien d'autre. Le saut d'échelle minimum entre deux niveaux est ×1.5. Recommandé : ×8 entre display et body.</p>
+          </div>
+          <div>
+            <div class="eyebrow" style="margin-bottom:6px">Espace</div>
+            <p style="font-size:13px;color:var(--muted);line-height:1.55">Toutes les valeurs sont multiples de 4. Aucune marge "à l'œil". L'espace blanc autour d'un élément critique est au moins 2× sa hauteur.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================== -->
+<!-- FINAL VISION                                    -->
+<!-- =============================================== -->
+<section id="final" class="final" data-screen-label="11 Vision">
+  <div class="shell">
+    <div class="section-head">
+      <div class="marker">
+        <span class="num">§ 10</span>
+        <span class="id">Résumé</span>
+      </div>
+      <span class="eyebrow">Vision résumée</span>
+    </div>
+
+    <h2 class="final-title">
+      Pas un site SaaS de plus.<br/>
+      Un <b>carnet de route</b> numérique<br/>
+      pour les gens qui prospectent <b>vraiment.</b>
+    </h2>
+
+    <div class="final-block">
+      <div class="b">
+        <h4>Ce que le site dit en 3 secondes</h4>
+        <p>Une plateforme professionnelle, chaleureuse, ancrée. <b>Conçue par des gens qui ont vendu en porte-à-porte</b>. Pas un CRM en plus. Pas un dashboard générique. Un outil qui sent le terrain.</p>
+      </div>
+      <div class="b">
+        <h4>Ce qui le différencie</h4>
+        <p>Dominante sand chaud, pas dark dramatique. Plan cadastral, pas vue satellite. Photo terrain réelle, pas illustration vectorielle. <b>Aucun glow, aucun néon, aucun "AI-coded"</b>.</p>
+      </div>
+      <div class="b">
+        <h4>Ce qu'il évite</h4>
+        <p>Les fonds noirs profonds façon command center. Les gradients flous. Les villes 3D photoréalistes. Les compteurs de "clients heureux". Les témoignages avec sourire forcé. Le futurisme gratuit.</p>
+      </div>
+    </div>
+
+    <div class="final-foot">
+      <div class="meta">
+        <span>DoorTrack — Direction artistique site · v2</span>
+        <span>Document mai 2026 — grounded version</span>
+        <span style="color:var(--terrain)">DT/DA/2026-05</span>
+      </div>
+      <div class="sig">
+        <div style="width:44px;height:44px;border-radius:11px;background:var(--teal);position:relative">
+          <div style="position:absolute;left:13px;top:11px;width:14px;height:22px;background:var(--paper);border-radius:3px"></div>
+          <div style="position:absolute;left:22px;top:20px;width:4px;height:4px;border-radius:50%;background:var(--terrain)"></div>
+        </div>
+        <strong>DoorTrack</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Smooth scroll for nav
+document.querySelectorAll('.topbar nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id && id.startsWith('#')) {
+      e.preventDefault();
+      const el = document.querySelector(id);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>

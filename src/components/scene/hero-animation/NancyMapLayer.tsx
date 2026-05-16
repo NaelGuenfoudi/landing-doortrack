@@ -15,7 +15,7 @@ interface NancyMapLayerProps {
 
 const NancyMapLayer = forwardRef<MapRef, NancyMapLayerProps>(({ disableAnimation = false }, ref) => {
   const mapRef = useRef<MapRef>(null);
-  const requestRef = useRef<number>(null);
+  const requestRef = useRef<number | null>(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const parallax = useRef({ x: 0, y: 0 });
   

@@ -21,23 +21,28 @@ export default function SectionContent({
   customTextAlign = "left",
   manual = false
 }: SectionContentProps) {
-  const animationProps = manual ? {} : {
-    initial: { opacity: 0, y: 30, filter: "blur(10px)" },
-    whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
-    viewport: { once: false, amount: 0.5 },
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+  // Définition explicite pour satisfaire le compilateur de Netlify (TypeScript)
+  const initial = manual ? undefined : { opacity: 0, y: 30, filter: "blur(10px)" };
+  const whileInView = manual ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" };
+  const viewport = manual ? undefined : { once: false, amount: 0.5 };
+  const transition = manual ? undefined : { 
+    duration: 0.8, 
+    ease: [0.22, 1, 0.36, 1] as [number, number, number, number] 
   };
 
   return (
     <motion.div 
-      {...animationProps}
+      initial={initial}
+      whileInView={whileInView}
+      viewport={viewport}
+      transition={transition}
       style={{ textAlign: customTextAlign }}
       className="space-y-6"
     >
       <motion.span 
-        initial={manual ? {} : { opacity: 0 }}
-        whileInView={manual ? {} : { opacity: 1 }}
-        transition={{ delay: 0.2 }}
+        initial={manual ? undefined : { opacity: 0 }}
+        whileInView={manual ? undefined : { opacity: 1 }}
+        transition={manual ? undefined : { delay: 0.2 }}
         className="text-blue-600 font-bold tracking-wider text-sm"
       >
         {number} — {eyebrow}
@@ -57,9 +62,9 @@ export default function SectionContent({
       
       {isFirst && (
         <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4 }}
+          initial={manual ? undefined : { opacity: 0, scale: 0.9 }}
+          whileInView={manual ? undefined : { opacity: 1, scale: 1 }}
+          transition={manual ? undefined : { delay: 0.4 }}
           className="pt-4 pointer-events-auto"
         >
           <button className="px-8 py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20 active:scale-95">
