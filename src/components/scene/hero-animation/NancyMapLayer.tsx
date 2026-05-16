@@ -29,41 +29,43 @@ const NancyMapLayer = forwardRef<MapRef, NancyMapLayerProps>(({ disableAnimation
     bearing: -20
   };
 
-  const animate = () => {
-    const map = mapRef.current?.getMap();
-    if (map && !disableAnimation && map.isStyleLoaded()) {
-      const scrollY = window.scrollY;
-      
-      // On n'anime QUE si on est exactement en haut (0)
-      // Dès que le scroll commence, GSAP prend le contrôle exclusif
-      if (scrollY <= 5) {
-        parallax.current.x += (mousePos.current.x - parallax.current.x) * 0.05;
-        parallax.current.y += (mousePos.current.y - parallax.current.y) * 0.05;
-
-        map.jumpTo({
-          bearing: -20 + (parallax.current.x * 6),
-          pitch: 60 + (parallax.current.y * 3)
-        });
-      }
-    }
-    requestRef.current = requestAnimationFrame(animate);
-  };
-
   useEffect(() => {
+    const animate = () => {
+      const map = mapRef.current?.getMap();
+      if (map && !disableAnimation && map.isStyleLoaded()) {
+        const scrollY = window.scrollY;
+        
+        // On n'anime QUE si on est exactement en haut (0)
+        // Dès que le scroll commence, GSAP prend le contrôle exclusif
+        if (scrollY <= 5) {
+          parallax.current.x += (mousePos.current.x - parallax.current.x) * 0.05;
+          parallax.current.y += (mousePos.current.y - parallax.current.y) * 0.05;
+
+          map.jumpTo({
+            bearing: -20 + (parallax.current.x * 6),
+            pitch: 60 + (parallax.current.y * 3)
+          });
+        }
+      }
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       mousePos.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       mousePos.current.y = (e.clientY / window.innerHeight) * 2 - 1;
     };
+
     window.addEventListener("mousemove", handleMouseMove);
     requestRef.current = requestAnimationFrame(animate);
+
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, []);
+  }, [disableAnimation]);
 
   return (
-    <div className="w-full h-full bg-[#FAFAF7]">
+    <div className="w-full h-full bg-canvas">
       <Map
         ref={mapRef}
         initialViewState={initialViewState}
@@ -71,8 +73,8 @@ const NancyMapLayer = forwardRef<MapRef, NancyMapLayerProps>(({ disableAnimation
         mapStyle="/styles/doortrack-map-style.json"
         interactive={false}
       />
-      <div className="absolute bottom-2 right-2 text-[10px] text-slate-400 bg-white/50 px-2 py-0.5 rounded-full pointer-events-none">
-        Carte © <a href="https://www.openstreetmap.org/copyright" target="_blank" className="hover:underline">OpenStreetMap</a> contributors via OpenFreeMap
+      <div className="absolute bottom-2 right-2 text-[10px] text-muted bg-paper/50 px-2 py-0.5 rounded-full pointer-events-none">
+        Carte © <a href="https://www.openstreetmap.org/copyright" target="_blank" className="hover:underline text-ink">OpenStreetMap</a> contributors via OpenFreeMap
       </div>
     </div>
   );

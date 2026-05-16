@@ -8,7 +8,7 @@ interface SectionContentProps {
   title: string;
   description: string;
   isFirst?: boolean;
-  customTextAlign?: any;
+  customTextAlign?: "left" | "center" | "right";
   manual?: boolean;
 }
 
@@ -21,13 +21,12 @@ export default function SectionContent({
   customTextAlign = "left",
   manual = false
 }: SectionContentProps) {
-  // Définition explicite pour satisfaire le compilateur de Netlify (TypeScript)
   const initial = manual ? undefined : { opacity: 0, y: 30, filter: "blur(10px)" };
   const whileInView = manual ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" };
   const viewport = manual ? undefined : { once: false, amount: 0.5 };
   const transition = manual ? undefined : { 
     duration: 0.8, 
-    ease: [0.22, 1, 0.36, 1] as [number, number, number, number] 
+    ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] 
   };
 
   return (
@@ -39,23 +38,28 @@ export default function SectionContent({
       style={{ textAlign: customTextAlign }}
       className="space-y-6"
     >
-      <motion.span 
+      <motion.div 
         initial={manual ? undefined : { opacity: 0 }}
         whileInView={manual ? undefined : { opacity: 1 }}
         transition={manual ? undefined : { delay: 0.2 }}
-        className="text-blue-600 font-bold tracking-wider text-sm"
+        className="flex flex-col gap-1.5 mb-2"
       >
-        {number} — {eyebrow}
-      </motion.span>
+        <span className="font-mono text-[12px] tracking-[0.18em] text-terrain font-semibold">
+          § {number}
+        </span>
+        <span className="font-mono text-[12px] tracking-[0.18em] text-muted font-medium uppercase">
+          {eyebrow}
+        </span>
+      </motion.div>
       
       <motion.h2 
-        className="text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1]"
+        className="text-h2 text-ink text-balance"
       >
         {title}
       </motion.h2>
       
       <motion.p 
-        className="text-lg text-slate-600 max-w-xl leading-relaxed"
+        className="text-lead"
       >
         {description}
       </motion.p>
@@ -65,10 +69,13 @@ export default function SectionContent({
           initial={manual ? undefined : { opacity: 0, scale: 0.9 }}
           whileInView={manual ? undefined : { opacity: 1, scale: 1 }}
           transition={manual ? undefined : { delay: 0.4 }}
-          className="pt-4 pointer-events-auto"
+          className="pt-4 pointer-events-auto flex gap-3 flex-wrap"
         >
-          <button className="px-8 py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20 active:scale-95">
-            Rejoindre la bêta
+          <button className="inline-flex items-center gap-2 h-[54px] px-[22px] rounded-full font-semibold text-[15px] tracking-[-0.005em] bg-terrain text-white shadow-shadow-2 transition-all hover:bg-terrain-2">
+            Rejoindre la bêta <span className="font-mono font-medium">→</span>
+          </button>
+          <button className="inline-flex items-center gap-2 h-[54px] px-[22px] rounded-full font-semibold text-[15px] tracking-[-0.005em] bg-transparent text-ink shadow-[inset_0_0_0_1.5px_var(--color-line-2)] transition-all hover:bg-canvas">
+            En savoir plus
           </button>
         </motion.div>
       )}

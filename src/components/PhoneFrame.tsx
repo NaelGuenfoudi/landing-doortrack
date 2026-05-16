@@ -30,13 +30,13 @@ export default function PhoneFrame({
       className="relative mx-auto w-full max-w-[280px] md:max-w-[300px] aspect-[390/800]"
       style={{ opacity: introOpacity, transform: `scale(${introScale})` }}
     >
-      {/* Cadre du téléphone */}
-      <div className="absolute inset-0 bg-slate-950 rounded-[3rem] p-3 shadow-[0_50px_100px_-20px_rgba(2,6,23,0.3),0_30px_60px_-30px_rgba(2,6,23,0.4)] border border-slate-800 flex flex-col">
+      {/* Cadre du téléphone - Graphite / Ink */}
+      <div className="absolute inset-0 bg-ink rounded-[3rem] p-3 shadow-shadow-3 border border-dark-soft flex flex-col">
         {/* Encoche / Dynamic Island */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-full z-40" />
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-6 bg-dark-soft rounded-full z-40" />
         
         {/* Écran interne */}
-        <div className="relative flex-1 bg-white rounded-[2.2rem] overflow-hidden border border-slate-900">
+        <div className="relative flex-1 bg-paper rounded-[2.2rem] overflow-hidden border border-ink-soft">
           {/* Overlays animés - On les désactive en introMode pour plus de sobriété si besoin, ou on les laisse */}
           {!introMode && <PhoneOverlay currentScreen={currentScreen} />}
 
@@ -46,8 +46,8 @@ export default function PhoneFrame({
               initial={introMode ? { opacity: 1 } : { opacity: 0, x: 40, filter: "blur(4px)" }}
               animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
               exit={introMode ? { opacity: 1 } : { opacity: 0, x: -40, filter: "blur(4px)" }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 w-full h-full"
+              transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
+              className="absolute inset-0 w-full h-full bg-paper"
             >
               <Image
                 src={screenImages[currentScreen]}
@@ -63,7 +63,7 @@ export default function PhoneFrame({
       </div>
       
       {/* Reflet subtil sur le cadre */}
-      <div className="absolute inset-0 rounded-[3rem] pointer-events-none border border-white/10 z-50 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]" />
+      <div className="absolute inset-0 rounded-[3rem] pointer-events-none border border-white/5 z-50 shadow-[inset_0_0_20px_rgba(255,255,255,0.03)]" />
     </div>
   );
 }

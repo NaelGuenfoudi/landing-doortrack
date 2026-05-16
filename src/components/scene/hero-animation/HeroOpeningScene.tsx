@@ -17,9 +17,10 @@ interface HeroOpeningSceneProps {
   phoneRef: RefObject<HTMLDivElement | null>;
   sectionRefs: RefObject<(HTMLDivElement | null)[]>;
   setActiveScreen: (screen: "map" | "home" | "prospects" | "flash") => void;
+  bgRef?: RefObject<HTMLDivElement | null>;
 }
 
-export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setActiveScreen }: HeroOpeningSceneProps) {
+export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setActiveScreen, bgRef }: HeroOpeningSceneProps) {
   const mapRef = useRef<MapRef>(null);
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -32,7 +33,7 @@ export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setA
 
   return (
     <>
-      <div className="fixed inset-0 z-0">
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <NancyMapLayer ref={mapRef} disableAnimation={isScrolling} />
       </div>
 
@@ -42,6 +43,7 @@ export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setA
         phoneRef={phoneRef} 
         sectionRefs={sectionRefs}
         setActiveScreen={setActiveScreen}
+        bgRef={bgRef}
       />
     </>
   );

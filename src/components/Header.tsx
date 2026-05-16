@@ -1,21 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function Header() {
   const { scrollY } = useScroll();
-  const [threshold, setThreshold] = useState(1000); // Valeur par défaut
+  const [threshold, setThreshold] = useState(1000);
 
   useEffect(() => {
     // La map est maintenant à plat à 40% de 200vh, soit 80vh
-    setThreshold(window.innerHeight * 0.8);
+    const updateThreshold = () => setThreshold(window.innerHeight * 0.8);
     
-    const handleResize = () => setThreshold(window.innerHeight * 0.8);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    updateThreshold(); // Call once initially
+    
+    window.addEventListener("resize", updateThreshold);
+    return () => window.removeEventListener("resize", updateThreshold);
   }, []);
   
   // Le header apparaît progressivement juste avant que la map ne soit à plat
@@ -25,30 +25,36 @@ export default function Header() {
   return (
     <motion.header 
       style={{ opacity, y }}
-      className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200"
+      className="fixed top-[18px] left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3.5 px-3 py-1.5 bg-paper/85 backdrop-blur-md border border-line rounded-full text-ink shadow-shadow-2"
     >
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white transition-transform group-hover:scale-105">
-            <MapPin size={24} />
-          </div>
-          <span className="text-2xl font-bold tracking-tight text-slate-900">
-            Doortrack
-          </span>
+      <div className="flex items-center gap-2 pr-2.5 border-r border-line">
+        <div className="w-[22px] h-[22px] rounded-md bg-teal relative">
+          <div className="absolute left-[6px] top-[5px] w-2 h-3 bg-paper rounded-[2px]" />
+          <div className="absolute left-[11px] top-[10px] w-[3px] h-[3px] rounded-full bg-terrain" />
+        </div>
+        <Link href="/" className="text-sm font-bold tracking-tight">
+          DoorTrack
         </Link>
-
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href="/contact" className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">
-            Prendre contact
-          </Link>
-          <Link 
-            href="/contact" 
-            className="px-6 py-2.5 bg-blue-600 text-white text-sm font-bold rounded-full hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 active:scale-95"
-          >
-            Rejoindre la bêta
-          </Link>
-        </nav>
       </div>
+
+      <nav className="hidden md:flex gap-0.5">
+        <Link href="#concept" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
+          Concept
+        </Link>
+        <Link href="#narratif" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
+          Narratif
+        </Link>
+        <Link href="/contact" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
+          Contact
+        </Link>
+      </nav>
+
+      <Link 
+        href="/contact" 
+        className="flex items-center gap-1.5 px-[14px] py-[7px] bg-terrain text-paper-2 text-[13px] font-semibold tracking-tight rounded-full after:content-['→'] after:font-mono after:font-medium transition-colors hover:bg-terrain-2"
+      >
+        Vision
+      </Link>
     </motion.header>
   );
 }

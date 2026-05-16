@@ -14,6 +14,7 @@ interface ScrollChoreographyProps {
   phoneRef: RefObject<HTMLDivElement | null>;
   sectionRefs: RefObject<(HTMLDivElement | null)[]>;
   setActiveScreen: (screen: "map" | "home" | "prospects" | "flash") => void;
+  bgRef?: RefObject<HTMLDivElement | null>; // Add reference for background
 }
 
 export default function ScrollChoreography({ 
@@ -21,7 +22,8 @@ export default function ScrollChoreography({
   titleRef, 
   phoneRef, 
   sectionRefs,
-  setActiveScreen
+  setActiveScreen,
+  bgRef
 }: ScrollChoreographyProps) {
   const [isReady, setIsReady] = useState(false);
 
@@ -43,10 +45,13 @@ export default function ScrollChoreography({
     const title = titleRef.current;
     const phone = phoneRef.current;
     const sections = sectionRefs.current;
+    const bg = bgRef?.current;
 
     // --- SETUP INITIAL ---
     gsap.set(title, { opacity: 1, scale: 1, y: 0 });
     gsap.set(phone, { y: "100vh", opacity: 0, scale: 0.8 });
+    if (bg) gsap.set(bg, { opacity: 0 }); // canvas-2 is hidden by default
+
     sections.forEach(s => { 
       if(s) {
         gsap.set(s, { opacity: 1 }); // Le container est visible, on anime les enfants
@@ -97,6 +102,7 @@ export default function ScrollChoreography({
     // SECTION 1 - CARTE (15% -> 35%)
     const q1 = gsap.utils.selector(sections[0] || document.createElement('div'));
     tl.call(() => setActiveScreen("map"), [], 0.15); 
+    if (bg) tl.to(bg, { opacity: 0, duration: 0.1 }, 0.15); // Canvas
     tl.to(q1(".left-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.18);
     tl.to(q1(".right-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.22);
     tl.to(q1(".pointer-line"), { scaleX: 1, duration: 0.04 }, 0.24);
@@ -105,6 +111,7 @@ export default function ScrollChoreography({
     // SECTION 2 - ACCUEIL (35% -> 55%)
     const q2 = gsap.utils.selector(sections[1] || document.createElement('div'));
     tl.call(() => setActiveScreen("home"), [], 0.35); 
+    if (bg) tl.to(bg, { opacity: 1, duration: 0.1 }, 0.35); // Canvas-2
     tl.to(q2(".left-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.38);
     tl.to(q2(".right-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.42);
     tl.to(q2(".pointer-line"), { scaleX: 1, duration: 0.04 }, 0.44);
@@ -113,6 +120,7 @@ export default function ScrollChoreography({
     // SECTION 3 - PROSPECTS (55% -> 75%)
     const q3 = gsap.utils.selector(sections[2] || document.createElement('div'));
     tl.call(() => setActiveScreen("prospects"), [], 0.55); 
+    if (bg) tl.to(bg, { opacity: 0, duration: 0.1 }, 0.55); // Canvas
     tl.to(q3(".left-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.58);
     tl.to(q3(".right-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.62);
     tl.to(q3(".pointer-line"), { scaleX: 1, duration: 0.04 }, 0.64);
@@ -121,6 +129,7 @@ export default function ScrollChoreography({
     // SECTION 4 - FLASH (75% -> 95%)
     const q4 = gsap.utils.selector(sections[3] || document.createElement('div'));
     tl.call(() => setActiveScreen("flash"), [], 0.75); 
+    if (bg) tl.to(bg, { opacity: 1, duration: 0.1 }, 0.75); // Canvas-2
     tl.to(q4(".left-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.78);
     tl.to(q4(".right-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.82);
     tl.to(q4(".pointer-line"), { scaleX: 1, duration: 0.04 }, 0.84);

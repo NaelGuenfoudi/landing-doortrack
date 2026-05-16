@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useScroll, useMotionValueEvent } from "framer-motion";
 import PhoneFrame from "@/components/PhoneFrame";
 import SectionContent from "@/components/SectionContent";
 import CalloutCard from "@/components/CalloutCard";
 import HeroOpeningScene from "@/components/scene/hero-animation/HeroOpeningScene";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import FloatingWidgets from "@/components/scene/hero-animation/FloatingWidgets";
 
 export const sections = [
   {
@@ -15,10 +15,22 @@ export const sections = [
     eyebrow: "CARTE OPÉRATIONNELLE",
     title: "Visualisez vos secteurs, suivez vos prospects, pilotez votre terrain.",
     description: "Doortrack aide les équipes commerciales à visualiser leurs secteurs, suivre leurs prospects et organiser leurs relances sans perdre le fil du terrain.",
-    callout: {
-      title: "Prioriser les bons secteurs",
-      text: "Repérez en un coup d’œil les zones à travailler, les rues déjà couvertes et les opportunités qui méritent une action immédiate."
-    }
+    callouts: [
+      {
+        eyebrow: "MÉTRIQUE TERRAIN",
+        metric: "+25% de couverture",
+        title: "Prioriser les bons secteurs",
+        text: "Repérez en un coup d’œil les zones à travailler, les rues déjà couvertes et les opportunités qui méritent une action immédiate.",
+        subNotes: ["Zonage cadastral précis", "Détection automatique de doublons"]
+      },
+      {
+        eyebrow: "LOGISTIQUE",
+        metric: "Optimisé",
+        title: "Cartographie Dynamique",
+        text: "Une carte qui s'adapte à votre progression réelle. Plus besoin de pointer manuellement chaque rue sur papier.",
+        subNotes: ["Mise à jour en direct", "Filtres de secteurs personnalisés"]
+      }
+    ]
   },
   {
     id: "home" as const,
@@ -26,10 +38,22 @@ export const sections = [
     eyebrow: "PILOTAGE QUOTIDIEN",
     title: "Une journée plus claire pour chaque commercial.",
     description: "Objectifs, actions prioritaires, progression et performance : chacun sait où il en est et ce qu’il doit faire ensuite.",
-    callout: {
-      title: "Motiver sans complexifier",
-      text: "Les KPI essentiels restent visibles sans noyer le commercial dans des tableaux inutiles."
-    }
+    callouts: [
+      {
+        eyebrow: "EFFICACITÉ GLOBALE",
+        metric: "15 min / débrief",
+        title: "Motiver sans complexifier",
+        text: "Les KPI essentiels restent visibles sans noyer le commercial dans des tableaux inutiles.",
+        subNotes: ["Tableau de bord temps réel", "Objectifs hebdomadaires"]
+      },
+      {
+        eyebrow: "PERFORMANCE",
+        metric: "KPI Live",
+        title: "Indicateurs de Succès",
+        text: "Suivez votre ratio de transformation en temps réel. Sachez exactement quel effort produit quel résultat.",
+        subNotes: ["Progression vs objectifs", "Statistiques de passage"]
+      }
+    ]
   },
   {
     id: "prospects" as const,
@@ -37,10 +61,22 @@ export const sections = [
     eyebrow: "SUIVI PROSPECT",
     title: "Ne laissez plus vos opportunités disparaître après le passage terrain.",
     description: "Les prospects sont qualifiés, priorisés et relancés au bon moment pour transformer l’activité terrain en conversions.",
-    callout: {
-      title: "Relancer avec le bon contexte",
-      text: "Chaque interaction reste attachée au prospect pour agir vite, relancer proprement et éviter les pertes d’information."
-    }
+    callouts: [
+      {
+        eyebrow: "RETENTION CLIENT",
+        metric: "0 perte d'info",
+        title: "Relancer avec le bon contexte",
+        text: "Chaque interaction reste attachée au prospect pour agir vite, relancer proprement et éviter les pertes d’information.",
+        subNotes: ["Historique complet des passages", "Rappels automatiques intelligents"]
+      },
+      {
+        eyebrow: "QUALIFICATION",
+        metric: "Data Riche",
+        title: "Fiches Prospects Détailées",
+        text: "Capturez les détails qui font la différence : besoins spécifiques, meilleur moment pour rappeler, humeur du prospect.",
+        subNotes: ["Notes vocales & photos", "Score de chaleur prospect"]
+      }
+    ]
   },
   {
     id: "flash" as const,
@@ -48,10 +84,22 @@ export const sections = [
     eyebrow: "PROSPECTION FLASH",
     title: "Agissez plus vite que jamais sur le terrain.",
     description: "Le mode Flash vous permet de qualifier une rue entière en quelques secondes sans jamais perdre votre focus.",
-    callout: {
-      title: "Vitesse d'exécution",
-      text: "Enregistrez vos passages en un tap et passez à la porte suivante instantanément."
-    }
+    callouts: [
+      {
+        eyebrow: "VITESSE D'EXÉCUTION",
+        metric: "3s / porte",
+        title: "Qualification en un tap",
+        text: "Le mode Flash vous permet de qualifier une rue entière en quelques secondes sans jamais perdre votre focus.",
+        subNotes: ["Optimisé pour le terrain", "Zéro friction logicielle"]
+      },
+      {
+        eyebrow: "CONNECTIVITÉ",
+        metric: "Edge Sync",
+        title: "Infrastructure Robuste",
+        text: "Une application conçue pour les zones blanches. Synchronisation asynchrone pour ne jamais ralentir votre foulée.",
+        subNotes: ["Mode hors-ligne complet", "Cryptage de bout en bout"]
+      }
+    ]
   }
 ];
 
@@ -59,14 +107,10 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   
   const [activeScreen, setActiveScreen] = useState<"map" | "home" | "prospects" | "flash">("map");
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
 
   return (
     <>
@@ -75,6 +119,7 @@ export default function Home() {
         phoneRef={phoneRef} 
         sectionRefs={sectionRefs}
         setActiveScreen={setActiveScreen}
+        bgRef={bgRef}
       />
       
       <ScrollIndicator />
@@ -86,13 +131,19 @@ export default function Home() {
           {/* LE THEATRE STICKY (Tout ce qui est fixe à l'écran) */}
           <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none">
             
+            {/* 0. BACKGROUND ALTERNÉ (Canvas-2) */}
+            <div 
+              ref={bgRef}
+              className="absolute inset-0 z-0 bg-canvas-2 opacity-0 transition-opacity duration-300 pointer-events-none"
+            />
+
             {/* 1. TITRE HERO CENTRAL */}
             <div 
               ref={titleRef}
               className="absolute inset-0 z-40 flex items-center justify-center px-6"
             >
-              <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 text-center leading-[1.1] max-w-4xl drop-shadow-md">
-                {sections[0].title}
+              <h1 className="text-h1 text-ink text-center max-w-[22ch]">
+                Le <span style={{ background: "linear-gradient(180deg, transparent 65%, rgba(226,91,20,.25) 65%)", padding: "0 4px" }}>terrain</span> mérite un <span className="text-terrain">vrai</span> outil.
               </h1>
             </div>
 
@@ -101,7 +152,8 @@ export default function Home() {
               ref={phoneRef}
               className="absolute top-20 bottom-0 left-0 right-0 z-20 flex items-center justify-center px-6 opacity-0 translate-y-[100vh]"
             >
-              <div className="w-full max-w-[300px] pointer-events-auto">
+              <div className="w-full max-w-[300px] pointer-events-auto relative">
+                <FloatingWidgets currentScreen={activeScreen} />
                 <PhoneFrame currentScreen={activeScreen} />
               </div>
             </div>
@@ -129,16 +181,26 @@ export default function Home() {
                   {/* Espace central libre pour le téléphone */}
                   <div className="h-[600px] lg:h-20" />
 
-                  {/* Callout Droite */}
-                  <div className="space-y-12 right-content opacity-0 relative">
-                    <div className="absolute top-1/2 -left-16 w-14 h-[2px] bg-blue-600/60 hidden lg:block origin-right pointer-line scale-x-0 shadow-[0_0_8px_rgba(37,99,235,0.2)]">
-                      <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-blue-600 rounded-full shadow-[0_0_10px_rgba(37,99,235,0.4)] border-2 border-white" />
-                    </div>
-                    <CalloutCard 
-                      title={section.callout.title}
-                      text={section.callout.text}
-                      manual={true}
-                    />
+                  {/* Callout Droite (Double Cartes - Droites & Séparées) */}
+                  <div className="space-y-24 right-content opacity-0 relative flex flex-col items-center">
+                    {section.callouts.map((callout, cIdx) => (
+                      <div key={cIdx} className="relative">
+                        {/* Ligne de connexion individuelle ultra-fine */}
+                        <div 
+                          className="absolute top-1/2 -left-20 w-20 h-[1px] bg-line-2 hidden lg:block origin-right pointer-line scale-x-0"
+                        >
+                          {/* Point de connexion style "réticule" */}
+                          <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full border border-terrain/30 flex items-center justify-center bg-canvas/50 backdrop-blur-sm">
+                            <div className="w-1 h-1 bg-terrain rounded-full shadow-[0_0_5px_rgba(226,91,20,0.5)]" />
+                          </div>
+                        </div>
+
+                        <CalloutCard 
+                          {...callout}
+                          manual={true}
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -147,21 +209,22 @@ export default function Home() {
         </div>
 
         {/* Section 04 - CTA Final (Scroll normal) */}
-        <section className="relative z-30 py-32 px-6 bg-slate-900 text-white overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/assets/map-pattern.svg")', backgroundSize: '400px 400px' }} />
-          <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-            <span className="text-blue-400 font-bold tracking-wider text-sm">04 — PASSER À L’ÉTAPE SUIVANTE</span>
-            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-              Rejoignez les premiers utilisateurs de Doortrack.
+        <section className="relative z-30 py-32 px-6 bg-canvas overflow-hidden border-t border-line">
+          <div className="absolute inset-0 opacity-[0.7] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(60,40,20,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(60,40,20,.04) 1px, transparent 1px)', backgroundSize: '80px 80px', WebkitMaskImage: 'radial-gradient(ellipse 60% 50% at 50% 50%, transparent 30%, #000 80%)' }} />
+          <div className="max-w-3xl mx-auto text-center space-y-6 relative z-10">
+            <span className="font-mono text-[11px] tracking-[0.16em] text-terrain font-semibold uppercase">§ 05 — PASSER À L’ÉTAPE SUIVANTE</span>
+            <h2 className="text-[clamp(36px,6vw,88px)] font-light tracking-[-0.03em] leading-[1.05] text-ink max-w-[22ch] mx-auto text-balance">
+              Ne marchez plus à l&apos;aveugle.<br/><b className="font-bold text-terrain">Prospectez</b> avec précision.
             </h2>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
-              <button className="px-10 py-5 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/40 active:scale-95 w-full sm:w-auto text-lg">
-                Rejoindre la bêta
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+              <button className="inline-flex items-center gap-2 h-[54px] px-[22px] rounded-full font-semibold text-[15px] tracking-[-0.005em] bg-terrain text-white shadow-shadow-2 transition-all hover:bg-terrain-2 hover:shadow-shadow-3 w-full sm:w-auto justify-center">
+                Réserver une démo <span className="font-mono font-medium">→</span>
               </button>
-              <button className="px-10 py-5 bg-transparent text-white font-bold rounded-full border border-slate-700 hover:bg-slate-800 transition-all active:scale-95 w-full sm:w-auto text-lg">
+              <button className="inline-flex items-center gap-2 h-[54px] px-[22px] rounded-full font-semibold text-[15px] tracking-[-0.005em] bg-teal text-paper-2 shadow-shadow-1 transition-all hover:bg-teal-2 w-full sm:w-auto justify-center">
                 Prendre contact
               </button>
             </div>
+            <p className="font-mono text-[11px] text-muted tracking-[0.1em] uppercase pt-4">Démo en 15 min · sans engagement</p>
           </div>
         </section>
       </main>
