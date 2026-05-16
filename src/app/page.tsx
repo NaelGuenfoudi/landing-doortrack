@@ -13,8 +13,8 @@ export const sections = [
     id: "map" as const,
     number: "01",
     eyebrow: "CARTE OPÉRATIONNELLE",
-    title: "Transformez votre terrain en carte d’action commerciale.",
-    description: "Doortrack aide vos équipes à visualiser les bons secteurs, prioriser les opportunités et remonter une donnée terrain claire au manager.",
+    title: "Visualisez vos secteurs, suivez vos prospects, pilotez votre terrain.",
+    description: "Doortrack aide les équipes commerciales à visualiser leurs secteurs, suivre leurs prospects et organiser leurs relances sans perdre le fil du terrain.",
     callout: {
       title: "Prioriser les bons secteurs",
       text: "Repérez en un coup d’œil les zones à travailler, les rues déjà couvertes et les opportunités qui méritent une action immédiate."
@@ -100,17 +100,18 @@ export default function Home() {
               <div 
                 key={section.id}
                 ref={(el) => { sectionRefs.current[index] = el; }}
-                className="absolute inset-0 z-30 flex items-center justify-center px-6 opacity-0"
+                className="absolute inset-0 z-30 flex items-center justify-center px-6"
               >
                 <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_420px_1fr] gap-12 items-center pointer-events-none">
                   {/* Texte Gauche */}
-                  <div className="space-y-6">
+                  <div className="space-y-6 left-content opacity-0">
                     <SectionContent 
                       number={section.number}
                       eyebrow={section.eyebrow}
                       title={section.title}
                       description={section.description}
                       isFirst={index === 0}
+                      manual={true}
                     />
                   </div>
 
@@ -118,11 +119,14 @@ export default function Home() {
                   <div className="h-[600px] lg:h-20" />
 
                   {/* Callout Droite */}
-                  <div className="space-y-12">
+                  <div className="space-y-12 right-content opacity-0 relative">
+                    <div className="absolute top-1/2 -left-16 w-14 h-[2px] bg-blue-600/60 hidden lg:block origin-right pointer-line scale-x-0 shadow-[0_0_8px_rgba(37,99,235,0.2)]">
+                      <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-blue-600 rounded-full shadow-[0_0_10px_rgba(37,99,235,0.4)] border-2 border-white" />
+                    </div>
                     <CalloutCard 
                       title={section.callout.title}
                       text={section.callout.text}
-                      delay={0.2}
+                      manual={true}
                     />
                   </div>
                 </div>
