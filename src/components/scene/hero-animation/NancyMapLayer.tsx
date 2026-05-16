@@ -62,16 +62,13 @@ const NancyMapLayer = forwardRef<MapRef, NancyMapLayerProps>(({ disableAnimation
     };
   }, []);
 
-  // Cache buster pour le dev
-  const styleUrl = `/styles/doortrack-map-style.json?v=${Date.now()}`;
-
   return (
     <div className="w-full h-full bg-[#FAFAF7]">
       <Map
         ref={mapRef}
         initialViewState={initialViewState}
         style={{ width: "100%", height: "100%" }}
-        mapStyle={styleUrl}
+        mapStyle="/styles/doortrack-map-style.json"
         interactive={false}
         antialias={true}
         preserveDrawingBuffer={true}
