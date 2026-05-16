@@ -9,6 +9,7 @@ interface SectionContentProps {
   description: string;
   isFirst?: boolean;
   customTextAlign?: any;
+  manual?: boolean;
 }
 
 export default function SectionContent({ 
@@ -17,20 +18,25 @@ export default function SectionContent({
   title, 
   description, 
   isFirst,
-  customTextAlign = "left" 
+  customTextAlign = "left",
+  manual = false
 }: SectionContentProps) {
+  const animationProps = manual ? {} : {
+    initial: { opacity: 0, y: 30, filter: "blur(10px)" },
+    whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
+    viewport: { once: false, amount: 0.5 },
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+  };
+
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: false, amount: 0.5 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      {...animationProps}
       style={{ textAlign: customTextAlign }}
       className="space-y-6"
     >
       <motion.span 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        initial={manual ? {} : { opacity: 0 }}
+        whileInView={manual ? {} : { opacity: 1 }}
         transition={{ delay: 0.2 }}
         className="text-blue-600 font-bold tracking-wider text-sm"
       >
