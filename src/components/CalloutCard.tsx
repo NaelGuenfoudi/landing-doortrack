@@ -36,23 +36,24 @@ export default function CalloutCard({
       whileInView={whileInView}
       viewport={viewport}
       transition={transition}
-      className="w-full max-w-[320px] rounded-xl border border-line-2 shadow-shadow-2 overflow-hidden flex flex-col relative"
+      className="w-full max-w-[320px] rounded-xl border border-line-2 shadow-shadow-3 overflow-hidden flex flex-col relative"
       style={{ 
-        backgroundColor: "rgba(241, 236, 224, 0.08)", 
-        backdropFilter: "blur(16px) saturate(120%)",
-        WebkitBackdropFilter: "blur(16px) saturate(120%)"
+        backgroundColor: "rgba(255, 255, 255, 0.15)", 
+        backdropFilter: "blur(24px) saturate(160%)",
+        WebkitBackdropFilter: "blur(24px) saturate(160%)",
+        boxShadow: "inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 8px 32px -8px rgba(31, 42, 46, 0.15)"
       }}
     >
       {/* Header Panel */}
       <div 
-        className="px-4 py-3 border-b border-line flex items-center justify-between relative z-10"
-        style={{ backgroundColor: "rgba(31, 42, 46, 0.03)" }}
+        className="px-4 py-3 border-b border-line/50 flex items-center justify-between relative z-10"
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
       >
-        <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink font-bold opacity-60">
+        <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink font-bold opacity-70">
           {eyebrow || "INSIGHT"}
         </span>
         {metric && (
-          <span className="px-2 py-0.5 rounded-full bg-terrain/10 text-terrain font-mono text-[9px] font-bold border border-terrain/20">
+          <span className="px-2 py-0.5 rounded-full bg-terrain/15 text-terrain font-mono text-[9px] font-bold border border-terrain/20">
             {metric}
           </span>
         )}
@@ -67,14 +68,14 @@ export default function CalloutCard({
       {/* Footer / Sub-notes */}
       {subNotes.length > 0 && (
         <div 
-          className="px-4 py-3 border-t border-line mt-auto relative z-10"
-          style={{ backgroundColor: "rgba(31, 42, 46, 0.02)" }}
+          className="px-4 py-3 border-t border-line/50 mt-auto relative z-10"
+          style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
         >
           <ul className="space-y-1.5">
             {subNotes.map((note, idx) => (
               <li key={idx} className="flex items-start gap-2">
-                <span className="mt-1 w-1 h-1 rounded-full bg-terrain/60 shrink-0 shadow-sm" />
-                <span className="font-mono text-[10px] text-ink font-semibold leading-tight uppercase tracking-wider opacity-70">
+                <span className="mt-1 w-1 h-1 rounded-full bg-terrain/70 shrink-0 shadow-sm" />
+                <span className="font-mono text-[10px] text-ink font-semibold leading-tight uppercase tracking-wider opacity-80">
                   {note}
                 </span>
               </li>

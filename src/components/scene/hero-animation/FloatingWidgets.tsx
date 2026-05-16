@@ -6,7 +6,16 @@ interface FloatingWidgetsProps {
   currentScreen: "map" | "home" | "prospects" | "flash";
 }
 
-const widgetsData = {
+interface WidgetItem {
+  id: number;
+  label: string;
+  value: string;
+  pos: string;
+  delay: number;
+  dot?: string;
+}
+
+const widgetsData: Record<string, WidgetItem[]> = {
   map: [
     { id: 1, label: "Secteur Nord", value: "85% couvert", pos: "top-[-40px] left-[-60px]", delay: 0 },
     { id: 2, label: "Densité", value: "Opportunité +", pos: "bottom-[20px] right-[-80px]", delay: 0.5 },
