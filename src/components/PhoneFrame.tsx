@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import PhoneOverlay from "./PhoneOverlay";
 
 interface PhoneFrameProps {
-  currentScreen: "map" | "home" | "prospects";
+  currentScreen: "map" | "home" | "prospects" | "flash";
   introMode?: boolean;
   introOpacity?: number;
   introScale?: number;
@@ -15,6 +15,7 @@ const screenImages = {
   map: "/screens/doortrack-map.jpg",
   home: "/screens/doortrack-home.jpg",
   prospects: "/screens/doortrack-prospects.jpg",
+  flash: "/screens/doortrack-flash.jpg",
 };
 
 export default function PhoneFrame({ 

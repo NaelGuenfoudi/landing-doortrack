@@ -69,55 +69,62 @@ export default function ScrollChoreography({
       }
     });
 
-    // --- SPRINT 1 : INTRO (0% -> 20%) ---
+    // --- SPRINT 1 : INTRO (0% -> 15%) ---
     
-    // 1. Map s'élève (0 -> 12%)
+    // 1. Map s'élève (0 -> 10%)
     tl.to(mapState, {
       pitch: 0, bearing: 0, zoom: 15.5,
-      duration: 0.12, ease: "power1.inOut",
+      duration: 0.1, ease: "power1.inOut",
       onUpdate: () => {
         map.jumpTo({ pitch: mapState.pitch, bearing: mapState.bearing, zoom: mapState.zoom });
       }
     }, 0);
 
-    // 2. Titre s'efface (4 -> 12%)
+    // 2. Titre s'efface (3 -> 10%)
     tl.to(title, {
       opacity: 0, scale: 0.8, y: -50,
-      duration: 0.08, ease: "power2.in"
-    }, 0.04);
+      duration: 0.07, ease: "power2.in"
+    }, 0.03);
 
-    // 3. Téléphone monte et se fixe (12 -> 20%)
+    // 3. Téléphone monte et se fixe (10 -> 15%)
     tl.to(phone, {
       y: "0vh", opacity: 1, scale: 1,
-      duration: 0.08, ease: "power2.out"
-    }, 0.12);
+      duration: 0.05, ease: "power2.out"
+    }, 0.1);
 
-    // --- SPRINT 2 : SÉQUENÇAGE NARRATIF (20% -> 100%) ---
+    // --- SPRINT 2 & 3 : SÉQUENÇAGE NARRATIF (15% -> 95%) ---
 
-    // SECTION 1 - CARTE
+    // SECTION 1 - CARTE (15% -> 35%)
     const q1 = gsap.utils.selector(sections[0]);
-    tl.call(() => setActiveScreen("map"), [], 0.2); // Phone Solo Map
-    tl.to(q1(".left-content"), { opacity: 1, y: 0, duration: 0.05 }, 0.25); // Annonce
-    tl.to(q1(".right-content"), { opacity: 1, y: 0, duration: 0.05 }, 0.30); // Preuve
-    tl.to(q1(".pointer-line"), { scaleX: 1, duration: 0.05 }, 0.32); // Flèche
-    tl.to([q1(".left-content"), q1(".right-content")], { opacity: 0, y: -20, duration: 0.05 }, 0.42); // Nettoyage
+    tl.call(() => setActiveScreen("map"), [], 0.15); 
+    tl.to(q1(".left-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.18);
+    tl.to(q1(".right-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.22);
+    tl.to(q1(".pointer-line"), { scaleX: 1, duration: 0.04 }, 0.24);
+    tl.to([q1(".left-content"), q1(".right-content")], { opacity: 0, y: -20, duration: 0.04 }, 0.32);
 
-    // SECTION 2 - ACCUEIL
+    // SECTION 2 - ACCUEIL (35% -> 55%)
     const q2 = gsap.utils.selector(sections[1]);
-    tl.call(() => setActiveScreen("home"), [], 0.47); // Phone Solo Home
-    tl.to(q2(".left-content"), { opacity: 1, y: 0, duration: 0.05 }, 0.52); // Annonce
-    tl.to(q2(".right-content"), { opacity: 1, y: 0, duration: 0.05 }, 0.57); // Preuve
-    tl.to(q2(".pointer-line"), { scaleX: 1, duration: 0.05 }, 0.59); // Flèche
-    tl.to([q2(".left-content"), q2(".right-content")], { opacity: 0, y: -20, duration: 0.05 }, 0.69); // Nettoyage
+    tl.call(() => setActiveScreen("home"), [], 0.35); 
+    tl.to(q2(".left-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.38);
+    tl.to(q2(".right-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.42);
+    tl.to(q2(".pointer-line"), { scaleX: 1, duration: 0.04 }, 0.44);
+    tl.to([q2(".left-content"), q2(".right-content")], { opacity: 0, y: -20, duration: 0.04 }, 0.52);
 
-    // SECTION 3 - PROSPECTS
+    // SECTION 3 - PROSPECTS (55% -> 75%)
     const q3 = gsap.utils.selector(sections[2]);
-    tl.call(() => setActiveScreen("prospects"), [], 0.74); // Phone Solo Prospects
-    tl.to(q3(".left-content"), { opacity: 1, y: 0, duration: 0.05 }, 0.79); // Annonce
-    tl.to(q3(".right-content"), { opacity: 1, y: 0, duration: 0.05 }, 0.84); // Preuve
-    tl.to(q3(".pointer-line"), { scaleX: 1, duration: 0.05 }, 0.86); // Flèche
-    // On garde l'écran final affiché jusqu'au bout (95%)
-    tl.to([q3(".left-content"), q3(".right-content")], { opacity: 0, duration: 0.05 }, 0.95);
+    tl.call(() => setActiveScreen("prospects"), [], 0.55); 
+    tl.to(q3(".left-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.58);
+    tl.to(q3(".right-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.62);
+    tl.to(q3(".pointer-line"), { scaleX: 1, duration: 0.04 }, 0.64);
+    tl.to([q3(".left-content"), q3(".right-content")], { opacity: 0, y: -20, duration: 0.04 }, 0.72);
+
+    // SECTION 4 - FLASH (75% -> 95%)
+    const q4 = gsap.utils.selector(sections[3]);
+    tl.call(() => setActiveScreen("flash"), [], 0.75); 
+    tl.to(q4(".left-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.78);
+    tl.to(q4(".right-content"), { opacity: 1, y: 0, duration: 0.04 }, 0.82);
+    tl.to(q4(".pointer-line"), { scaleX: 1, duration: 0.04 }, 0.84);
+    tl.to([q4(".left-content"), q4(".right-content")], { opacity: 0, duration: 0.04 }, 0.95);
 
     ScrollTrigger.refresh();
 

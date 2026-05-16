@@ -41,6 +41,17 @@ export const sections = [
       title: "Relancer avec le bon contexte",
       text: "Chaque interaction reste attachée au prospect pour agir vite, relancer proprement et éviter les pertes d’information."
     }
+  },
+  {
+    id: "flash" as const,
+    number: "04",
+    eyebrow: "PROSPECTION FLASH",
+    title: "Agissez plus vite que jamais sur le terrain.",
+    description: "Le mode Flash vous permet de qualifier une rue entière en quelques secondes sans jamais perdre votre focus.",
+    callout: {
+      title: "Vitesse d'exécution",
+      text: "Enregistrez vos passages en un tap et passez à la porte suivante instantanément."
+    }
   }
 ];
 
@@ -50,7 +61,7 @@ export default function Home() {
   const phoneRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   
-  const [activeScreen, setActiveScreen] = useState<"map" | "home" | "prospects">("map");
+  const [activeScreen, setActiveScreen] = useState<"map" | "home" | "prospects" | "flash">("map");
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
