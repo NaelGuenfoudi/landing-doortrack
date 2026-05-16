@@ -8,15 +8,24 @@ interface SectionContentProps {
   title: string;
   description: string;
   isFirst?: boolean;
+  customTextAlign?: any;
 }
 
-export default function SectionContent({ number, eyebrow, title, description, isFirst }: SectionContentProps) {
+export default function SectionContent({ 
+  number, 
+  eyebrow, 
+  title, 
+  description, 
+  isFirst,
+  customTextAlign = "left" 
+}: SectionContentProps) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: false, amount: 0.5 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      style={{ textAlign: customTextAlign }}
       className="space-y-6"
     >
       <motion.span 

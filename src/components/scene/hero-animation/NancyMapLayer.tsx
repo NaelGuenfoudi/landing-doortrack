@@ -31,12 +31,12 @@ const NancyMapLayer = forwardRef<MapRef, NancyMapLayerProps>(({ disableAnimation
 
   const animate = () => {
     const map = mapRef.current?.getMap();
-    if (map && !disableAnimation) {
+    if (map && !disableAnimation && map.isStyleLoaded()) {
       const scrollY = window.scrollY;
       
       // On n'anime QUE si on est exactement en haut (0)
-      // Sinon on laisse GSAP piloter la caméra
-      if (scrollY === 0) {
+      // Dès que le scroll commence, GSAP prend le contrôle exclusif
+      if (scrollY <= 5) {
         parallax.current.x += (mousePos.current.x - parallax.current.x) * 0.05;
         parallax.current.y += (mousePos.current.y - parallax.current.y) * 0.05;
 
@@ -62,13 +62,16 @@ const NancyMapLayer = forwardRef<MapRef, NancyMapLayerProps>(({ disableAnimation
     };
   }, []);
 
+  // Cache buster pour le dev
+  const styleUrl = `/styles/doortrack-map-style.json?v=${Date.now()}`;
+
   return (
     <div className="w-full h-full bg-[#FAFAF7]">
       <Map
         ref={mapRef}
         initialViewState={initialViewState}
         style={{ width: "100%", height: "100%" }}
-        mapStyle="/styles/doortrack-map-style.json"
+        mapStyle={styleUrl}
         interactive={false}
         antialias={true}
         preserveDrawingBuffer={true}

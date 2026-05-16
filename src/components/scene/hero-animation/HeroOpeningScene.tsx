@@ -1,21 +1,26 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, RefObject } from "react";
 import NancyMapLayer from "./NancyMapLayer";
 import ScrollChoreography from "./ScrollChoreography";
-import PhoneRig from "./PhoneRig";
 import { MapRef } from "react-map-gl/maplibre";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 
 /**
  * HeroOpeningScene
  * ----------------
- * ACTE 0 - Animation d'ouverture cinématique.
- * Gère le fond cartographique MapLibre et le téléphone.
+ * Orchestrateur de la scène de fond.
+ * Reçoit les refs des éléments UI pour les synchroniser via GSAP.
  */
-export default function HeroOpeningScene() {
+interface HeroOpeningSceneProps {
+  titleRef: RefObject<HTMLDivElement | null>;
+  phoneRef: RefObject<HTMLDivElement | null>;
+  sectionRefs: RefObject<(HTMLDivElement | null)[]>;
+  setActiveScreen: (screen: "map" | "home" | "prospects") => void;
+}
+
+export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setActiveScreen }: HeroOpeningSceneProps) {
   const mapRef = useRef<MapRef>(null);
-  const phoneRef = useRef<HTMLDivElement>(null);
   const [isScrolling, setIsScrolling] = useState(false);
 
   const { scrollY } = useScroll();
@@ -27,16 +32,17 @@ export default function HeroOpeningScene() {
 
   return (
     <>
-      {/* Layer 1 : Fond cartographique MapLibre (z-0) */}
       <div className="fixed inset-0 z-0">
         <NancyMapLayer ref={mapRef} disableAnimation={isScrolling} />
       </div>
 
-      {/* Layer 2 : Téléphone (z-10) */}
-      <PhoneRig ref={phoneRef} />
-
-      {/* Layer 3 : Chorégraphie GSAP (Logique) */}
-      <ScrollChoreography mapRef={mapRef} phoneRef={phoneRef} />
+      <ScrollChoreography 
+        mapRef={mapRef} 
+        titleRef={titleRef}
+        phoneRef={phoneRef} 
+        sectionRefs={sectionRefs}
+        setActiveScreen={setActiveScreen}
+      />
     </>
   );
 }

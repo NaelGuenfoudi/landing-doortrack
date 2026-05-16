@@ -24,9 +24,9 @@ export default function PhoneFrame({
   introScale = 1 
 }: PhoneFrameProps) {
   return (
-    /* Réduction de la taille max de 380px à 340px pour libérer de l'espace vertical */
+    /* Réduction de la taille pour libérer de l'espace vertical (300px max) */
     <div 
-      className="relative mx-auto w-full max-w-[300px] md:max-w-[340px] aspect-[390/800]"
+      className="relative mx-auto w-full max-w-[280px] md:max-w-[300px] aspect-[390/800]"
       style={{ opacity: introOpacity, transform: `scale(${introScale})` }}
     >
       {/* Cadre du téléphone */}
