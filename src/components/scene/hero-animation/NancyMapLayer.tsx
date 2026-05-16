@@ -70,8 +70,6 @@ const NancyMapLayer = forwardRef<MapRef, NancyMapLayerProps>(({ disableAnimation
         style={{ width: "100%", height: "100%" }}
         mapStyle="/styles/doortrack-map-style.json"
         interactive={false}
-        antialias={true}
-        preserveDrawingBuffer={true}
       />
       <div className="absolute bottom-2 right-2 text-[10px] text-slate-400 bg-white/50 px-2 py-0.5 rounded-full pointer-events-none">
         Carte © <a href="https://www.openstreetmap.org/copyright" target="_blank" className="hover:underline">OpenStreetMap</a> contributors via OpenFreeMap

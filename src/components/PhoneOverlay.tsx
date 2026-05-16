@@ -3,14 +3,14 @@
 import { motion } from "framer-motion";
 
 interface PhoneOverlayProps {
-  currentScreen: "map" | "home" | "prospects";
+  currentScreen: "map" | "home" | "prospects" | "flash";
 }
 
 export default function PhoneOverlay({ currentScreen }: PhoneOverlayProps) {
   return (
     <div className="absolute inset-0 z-30 pointer-events-none">
-      {/* Overlay pour la section MAP */}
-      {currentScreen === "map" && (
+      {/* Overlay pour la section MAP et FLASH (qui réutilise la map) */}
+      {(currentScreen === "map" || currentScreen === "flash") && (
         <>
           {/* Pulse sur un secteur clé de la carte */}
           <motion.div 

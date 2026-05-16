@@ -16,7 +16,7 @@ interface HeroOpeningSceneProps {
   titleRef: RefObject<HTMLDivElement | null>;
   phoneRef: RefObject<HTMLDivElement | null>;
   sectionRefs: RefObject<(HTMLDivElement | null)[]>;
-  setActiveScreen: (screen: "map" | "home" | "prospects") => void;
+  setActiveScreen: (screen: "map" | "home" | "prospects" | "flash") => void;
 }
 
 export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setActiveScreen }: HeroOpeningSceneProps) {
