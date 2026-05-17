@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import PhoneOverlay from "./PhoneOverlay";
+import FlashScreen from "./screens/FlashScreen";
 
 interface PhoneFrameProps {
   currentScreen: "map" | "home" | "prospects" | "flash";
@@ -25,18 +26,18 @@ export default function PhoneFrame({
   introScale = 1 
 }: PhoneFrameProps) {
   return (
-    /* Réduction de la taille pour libérer de l'espace vertical (300px max) */
-    <div 
-      className="relative mx-auto w-full max-w-[280px] md:max-w-[300px] aspect-[390/800]"
+    /* Réduit ~25% : 300 → 230px max selon cahier §7 */
+    <div
+      className="relative mx-auto w-full max-w-[210px] md:max-w-[230px] aspect-[390/800]"
       style={{ opacity: introOpacity, transform: `scale(${introScale})` }}
     >
       {/* Cadre du téléphone - Graphite / Ink */}
-      <div className="absolute inset-0 bg-ink rounded-[3rem] p-3 shadow-shadow-3 border border-dark-soft flex flex-col">
+      <div className="absolute inset-0 bg-ink rounded-[2.4rem] p-2.5 shadow-shadow-3 border border-dark-soft flex flex-col">
         {/* Encoche / Dynamic Island */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-6 bg-dark-soft rounded-full z-40" />
-        
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-5 bg-dark-soft rounded-full z-40" />
+
         {/* Écran interne */}
-        <div className="relative flex-1 bg-paper rounded-[2.2rem] overflow-hidden border border-ink-soft">
+        <div className="relative flex-1 bg-paper rounded-[1.8rem] overflow-hidden border border-ink-soft">
           {/* Overlays animés - On les désactive en introMode pour plus de sobriété si besoin, ou on les laisse */}
           {!introMode && <PhoneOverlay currentScreen={currentScreen} />}
 
@@ -49,21 +50,25 @@ export default function PhoneFrame({
               transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
               className="absolute inset-0 w-full h-full bg-paper"
             >
-              <Image
-                src={screenImages[currentScreen]}
-                alt={`Écran Doortrack - ${currentScreen}`}
-                fill
-                sizes="(max-width: 768px) 300px, 340px"
-                priority
-                className="object-cover"
-              />
+              {currentScreen === "flash" ? (
+                <FlashScreen />
+              ) : (
+                <Image
+                  src={screenImages[currentScreen]}
+                  alt={`Écran Doortrack - ${currentScreen}`}
+                  fill
+                  sizes="(max-width: 768px) 230px, 230px"
+                  priority
+                  className="object-cover"
+                />
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
       
       {/* Reflet subtil sur le cadre */}
-      <div className="absolute inset-0 rounded-[3rem] pointer-events-none border border-white/5 z-50 shadow-[inset_0_0_20px_rgba(255,255,255,0.03)]" />
+      <div className="absolute inset-0 rounded-[2.4rem] pointer-events-none border border-white/5 z-50 shadow-[inset_0_0_20px_rgba(255,255,255,0.03)]" />
     </div>
   );
 }
