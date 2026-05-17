@@ -24,6 +24,8 @@ import CalloutCard from "@/components/CalloutCard";
 import HeroOpeningScene from "@/components/scene/hero-animation/HeroOpeningScene";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import DemoForm from "@/components/DemoForm";
+import BetaSection from "@/components/sections/BetaSection";
+import VisionSection from "@/components/sections/VisionSection";
 
 type ScreenId = "map" | "home" | "prospects" | "flash";
 
@@ -219,12 +221,12 @@ export default function Home() {
       
       <ScrollIndicator />
       
-      <main className="relative z-10 bg-transparent">
+      <main className="relative z-10 bg-transparent" id="accueil">
         {/* LE STAGE (Conteneur de scroll luxueux) */}
         <div ref={containerRef} className="relative h-[600vh]" id="main-scroll-container">
           
           {/* LE THEATRE STICKY (Tout ce qui est fixe à l'écran) */}
-          <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none">
+          <div className="sticky top-0 h-[100svh] w-full overflow-hidden pointer-events-none">
             
             {/* 0. BACKGROUND ALTERNÉ (Canvas-2) */}
             <div 
@@ -295,32 +297,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bloc d'accroche final (cf. cahier §17 — précède le formulaire) */}
-        <section className="relative z-30 pt-32 pb-16 px-6 bg-canvas overflow-hidden border-t border-line">
-          <div
-            className="absolute inset-0 opacity-[0.7] pointer-events-none"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(60,40,20,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(60,40,20,.04) 1px, transparent 1px)",
-              backgroundSize: "80px 80px",
-              WebkitMaskImage:
-                "radial-gradient(ellipse 60% 50% at 50% 50%, transparent 30%, #000 80%)",
-            }}
-          />
-          <div className="max-w-3xl mx-auto text-center space-y-6 relative z-10">
-            <span className="font-mono text-[11px] tracking-[0.16em] text-terrain font-semibold uppercase">
-              § 05 — PASSER À L’ÉTAPE SUIVANTE
-            </span>
-            <h2 className="text-[clamp(36px,6vw,88px)] font-light tracking-[-0.03em] leading-[1.05] text-ink max-w-[22ch] mx-auto text-balance">
-              Ne marchez plus à l&apos;aveugle.
-              <br />
-              <b className="font-bold text-terrain">Prospectez</b> avec précision.
-            </h2>
-          </div>
-        </section>
+        {/* Section Bêta (Onglet 2) */}
+        <BetaSection />
 
-        {/* Formulaire CTA footer (§17) */}
-        <DemoForm />
+        {/* Section Vision & Contact (Onglet 3) */}
+        <VisionSection />
       </main>
     </>
   );
