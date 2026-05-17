@@ -38,22 +38,22 @@ export default function Header() {
       </div>
 
       <nav className="hidden md:flex gap-0.5">
-        <Link href="#concept" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
-          Concept
+        <Link href="#accueil" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
+          Accueil
         </Link>
-        <Link href="#narratif" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
-          Narratif
+        <Link href="#beta" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
+          Rejoindre la bêta
         </Link>
-        <Link href="/contact" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
-          Contact
+        <Link href="#vision" className="text-[13px] text-ink-soft px-[11px] py-1.5 rounded-full transition-all hover:bg-canvas">
+          Vision & Contact
         </Link>
       </nav>
 
       <Link 
-        href="/contact" 
-        className="flex items-center gap-1.5 px-[14px] py-[7px] bg-terrain text-paper-2 text-[13px] font-semibold tracking-tight rounded-full after:content-['→'] after:font-mono after:font-medium transition-colors hover:bg-terrain-2"
+        href="#beta" 
+        className="flex items-center gap-1.5 px-[14px] py-[7px] bg-terrain text-paper-2 text-[13px] font-semibold tracking-tight rounded-full transition-colors hover:bg-terrain-2"
       >
-        Vision
+        Rejoindre la bêta <span className="font-mono font-medium">→</span>
       </Link>
     </motion.header>
   );

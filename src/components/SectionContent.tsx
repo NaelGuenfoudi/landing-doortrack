@@ -45,7 +45,7 @@ export default function SectionContent({
         className="flex flex-col gap-1.5 mb-2"
       >
         <span className="font-mono text-[12px] tracking-[0.18em] text-terrain font-semibold">
-          § {number}
+          $ {number}
         </span>
         <span className="font-mono text-[12px] tracking-[0.18em] text-muted font-medium uppercase">
           {eyebrow}

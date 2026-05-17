@@ -52,13 +52,18 @@
   }
 
   body {
-    background-color: #F1ECE0; /* Hardcoded fallback for testing */
-    color: #1F2A2E;
+    background-color: #F8F5F0;
+    color: #252A2F;
     font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-image: radial-gradient(rgba(60,40,20,.025) 1px, transparent 1px);
-    background-size: 18px 18px;
+    background-image: linear-gradient(
+      180deg,
+      #F7F4EF 0%,
+      #F9F7F3 45%,
+      #FFFFFF 100%
+    );
+    background-attachment: fixed;
   }
 
   html {
