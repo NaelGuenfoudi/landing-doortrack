@@ -1,88 +1,74 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type { ComponentType } from "react";
+import type { LucideProps } from "lucide-react";
+import CalloutLine from "./CalloutLine";
 
-interface CalloutCardProps {
-  eyebrow?: string;
-  metric?: string;
+export interface CalloutCardProps {
+  icon: ComponentType<LucideProps>;
   title: string;
   text: string;
-  subNotes?: string[];
+  tag?: string;
   delay?: number;
   manual?: boolean;
+  /** Identifiant utilisé pour câbler les lignes de liaison SVG (§9). */
+  anchorId?: string;
 }
 
-export default function CalloutCard({ 
-  eyebrow, 
-  metric, 
-  title, 
-  text, 
-  subNotes = [], 
-  delay = 0, 
-  manual = false 
+/**
+ * CalloutCard
+ * -----------
+ * Fiche fonctionnelle terrain (cf. cahier §14) : icône fonctionnelle, titre
+ * court, texte bénéfice, tag JetBrains Mono. Fond paper warm, ombre légère,
+ * pas de glassmorphism, pas de glow.
+ */
+export default function CalloutCard({
+  icon: Icon,
+  title,
+  text,
+  tag,
+  delay = 0,
+  manual = false,
+  anchorId,
 }: CalloutCardProps) {
   const initial = manual ? undefined : { opacity: 0, x: 20, filter: "blur(8px)" };
   const whileInView = manual ? undefined : { opacity: 1, x: 0, filter: "blur(0px)" };
   const viewport = manual ? undefined : { once: false, amount: 0.5 };
-  const transition = manual ? undefined : { 
-    duration: 0.8, 
-    delay, 
-    ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] 
-  };
+  const transition = manual
+    ? undefined
+    : {
+        duration: 0.8,
+        delay,
+        ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number],
+      };
 
   return (
-    <motion.div 
+    <motion.article
+      data-callout-anchor={anchorId}
       initial={initial}
       whileInView={whileInView}
       viewport={viewport}
       transition={transition}
-      className="w-full max-w-[320px] rounded-xl border border-line-2 shadow-shadow-3 overflow-hidden flex flex-col relative"
-      style={{ 
-        backgroundColor: "rgba(255, 255, 255, 0.15)", 
-        backdropFilter: "blur(24px) saturate(160%)",
-        WebkitBackdropFilter: "blur(24px) saturate(160%)",
-        boxShadow: "inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 8px 32px -8px rgba(31, 42, 46, 0.15)"
-      }}
+      className="relative w-full max-w-[340px] rounded-[20px] border border-line bg-paper/92 shadow-shadow-2 backdrop-blur-[10px] px-6 py-5"
     >
-      {/* Header Panel */}
-      <div 
-        className="px-4 py-3 border-b border-line/50 flex items-center justify-between relative z-10"
-        style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-      >
-        <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink font-bold opacity-70">
-          {eyebrow || "INSIGHT"}
+      <CalloutLine />
+      <div className="flex items-center gap-3 mb-3">
+        <span className="w-7 h-7 rounded-lg bg-terrain-soft text-terrain-2 grid place-items-center shrink-0">
+          <Icon size={16} strokeWidth={1.75} aria-hidden />
         </span>
-        {metric && (
-          <span className="px-2 py-0.5 rounded-full bg-terrain/15 text-terrain font-mono text-[9px] font-bold border border-terrain/20">
-            {metric}
-          </span>
-        )}
+        <h3 className="text-[16px] leading-[1.25] font-bold tracking-[-0.01em] text-ink">
+          {title}
+        </h3>
       </div>
 
-      {/* Body Content */}
-      <div className="p-4 space-y-2 relative z-10">
-        <h3 className="text-[15px] font-bold text-ink leading-tight">{title}</h3>
-        <p className="text-[13px] text-ink-soft leading-[1.5] font-medium">{text}</p>
-      </div>
+      <p className="text-[13.5px] leading-[1.55] text-muted">{text}</p>
 
-      {/* Footer / Sub-notes */}
-      {subNotes.length > 0 && (
-        <div 
-          className="px-4 py-3 border-t border-line/50 mt-auto relative z-10"
-          style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-        >
-          <ul className="space-y-1.5">
-            {subNotes.map((note, idx) => (
-              <li key={idx} className="flex items-start gap-2">
-                <span className="mt-1 w-1 h-1 rounded-full bg-terrain/70 shrink-0 shadow-sm" />
-                <span className="font-mono text-[10px] text-ink font-semibold leading-tight uppercase tracking-wider opacity-80">
-                  {note}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {tag && (
+        <span className="inline-flex mt-3 font-mono text-[10px] tracking-[0.12em] uppercase text-terrain-2 bg-terrain-soft px-[9px] py-[5px] rounded-md font-semibold">
+          {tag}
+        </span>
       )}
-    </motion.div>
+    </motion.article>
   );
 }
