@@ -10,20 +10,24 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface ScrollChoreographyProps {
   mapRef: RefObject<MapRef | null>;
+  mapContainerRef?: RefObject<HTMLDivElement | null>;
   titleRef: RefObject<HTMLDivElement | null>;
   phoneRef: RefObject<HTMLDivElement | null>;
   sectionRefs: RefObject<(HTMLDivElement | null)[]>;
   setActiveScreen: (screen: "map" | "home" | "prospects" | "flash") => void;
   bgRef?: RefObject<HTMLDivElement | null>; // Add reference for background
+  cadastralRef?: RefObject<HTMLDivElement | null>;
 }
 
-export default function ScrollChoreography({ 
-  mapRef, 
-  titleRef, 
-  phoneRef, 
+export default function ScrollChoreography({
+  mapRef,
+  mapContainerRef,
+  titleRef,
+  phoneRef,
   sectionRefs,
   setActiveScreen,
-  bgRef
+  bgRef,
+  cadastralRef,
 }: ScrollChoreographyProps) {
   const [isReady, setIsReady] = useState(false);
 
@@ -46,11 +50,15 @@ export default function ScrollChoreography({
     const phone = phoneRef.current;
     const sections = sectionRefs.current;
     const bg = bgRef?.current;
+    const cadastral = cadastralRef?.current;
+    const mapContainer = mapContainerRef?.current;
 
     // --- SETUP INITIAL ---
     gsap.set(title, { opacity: 1, scale: 1, y: 0 });
     gsap.set(phone, { y: "100vh", opacity: 0, scale: 0.8 });
     if (bg) gsap.set(bg, { opacity: 0 }); // canvas-2 is hidden by default
+    if (cadastral) gsap.set(cadastral, { opacity: 0 });
+    if (mapContainer) gsap.set(mapContainer, { opacity: 1, filter: "saturate(1) contrast(1)" });
 
     sections.forEach(s => { 
       if(s) {
@@ -96,6 +104,24 @@ export default function ScrollChoreography({
       y: "0vh", opacity: 1, scale: 1,
       duration: 0.05, ease: "power2.out"
     }, 0.1);
+
+    // 4. La map 3D se désature et s'estompe au profit du plan cadastral
+    //    (cahier §9 — fond sobre, peu contrasté, presque texturé après le hero).
+    if (mapContainer) {
+      tl.to(mapContainer, {
+        opacity: 0.18,
+        filter: "saturate(0.4) contrast(0.85) brightness(1.08)",
+        duration: 0.1,
+        ease: "power1.inOut",
+      }, 0.05);
+    }
+    if (cadastral) {
+      tl.to(cadastral, {
+        opacity: 1,
+        duration: 0.1,
+        ease: "power1.inOut",
+      }, 0.05);
+    }
 
     // --- SPRINT 2 & 3 : SÉQUENÇAGE NARRATIF (15% -> 95%) ---
 

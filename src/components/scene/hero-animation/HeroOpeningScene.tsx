@@ -18,14 +18,16 @@ interface HeroOpeningSceneProps {
   sectionRefs: RefObject<(HTMLDivElement | null)[]>;
   setActiveScreen: (screen: "map" | "home" | "prospects" | "flash") => void;
   bgRef?: RefObject<HTMLDivElement | null>;
+  cadastralRef?: RefObject<HTMLDivElement | null>;
 }
 
-export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setActiveScreen, bgRef }: HeroOpeningSceneProps) {
+export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setActiveScreen, bgRef, cadastralRef }: HeroOpeningSceneProps) {
   const mapRef = useRef<MapRef>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   const [isScrolling, setIsScrolling] = useState(false);
 
   const { scrollY } = useScroll();
-  
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50 && !isScrolling) setIsScrolling(true);
     if (latest <= 50 && isScrolling) setIsScrolling(false);
@@ -33,17 +35,19 @@ export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setA
 
   return (
     <>
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div ref={mapContainerRef} className="fixed inset-0 z-0 pointer-events-none">
         <NancyMapLayer ref={mapRef} disableAnimation={isScrolling} />
       </div>
 
-      <ScrollChoreography 
-        mapRef={mapRef} 
+      <ScrollChoreography
+        mapRef={mapRef}
+        mapContainerRef={mapContainerRef}
         titleRef={titleRef}
-        phoneRef={phoneRef} 
+        phoneRef={phoneRef}
         sectionRefs={sectionRefs}
         setActiveScreen={setActiveScreen}
         bgRef={bgRef}
+        cadastralRef={cadastralRef}
       />
     </>
   );
