@@ -1,106 +1,174 @@
 "use client";
 
 import { useRef, useState } from "react";
+import {
+  LayoutGrid,
+  MapPin,
+  BarChart3,
+  Target,
+  Activity,
+  TrendingUp,
+  FileText,
+  Bell,
+  Users,
+  Zap,
+  RefreshCw,
+  Workflow,
+  type LucideProps,
+} from "lucide-react";
+import type { ComponentType } from "react";
+
 import PhoneFrame from "@/components/PhoneFrame";
 import SectionContent from "@/components/SectionContent";
 import CalloutCard from "@/components/CalloutCard";
 import HeroOpeningScene from "@/components/scene/hero-animation/HeroOpeningScene";
 import ScrollIndicator from "@/components/ScrollIndicator";
-import FloatingWidgets from "@/components/scene/hero-animation/FloatingWidgets";
+import DemoForm from "@/components/DemoForm";
 
-export const sections = [
+type ScreenId = "map" | "home" | "prospects" | "flash";
+
+interface Callout {
+  icon: ComponentType<LucideProps>;
+  title: string;
+  text: string;
+  tag: string;
+  anchorId: string;
+}
+
+interface Section {
+  id: ScreenId;
+  number: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  callouts: Callout[];
+}
+
+export const sections: Section[] = [
   {
-    id: "map" as const,
+    id: "map",
     number: "01",
-    eyebrow: "CARTE OPÉRATIONNELLE",
-    title: "Visualisez vos secteurs, suivez vos prospects, pilotez votre terrain.",
-    description: "Doortrack aide les équipes commerciales à visualiser leurs secteurs, suivre leurs prospects et organiser leurs relances sans perdre le fil du terrain.",
+    eyebrow: "CARTOGRAPHIE INTELLIGENTE",
+    title: "Visualisez vos secteurs, suivez vos opportunités, pilotez votre terrain.",
+    description:
+      "DoorTrack transforme votre zone de prospection en plan d’action clair : rues couvertes, secteurs à traiter, points chauds et priorités terrain.",
     callouts: [
       {
-        eyebrow: "MÉTRIQUE TERRAIN",
-        metric: "+25% de couverture",
-        title: "Prioriser les bons secteurs",
-        text: "Repérez en un coup d’œil les zones à travailler, les rues déjà couvertes et les opportunités qui méritent une action immédiate.",
-        subNotes: ["Zonage cadastral précis", "Détection automatique de doublons"]
+        icon: LayoutGrid,
+        title: "Repérez les rues à potentiel",
+        text: "Identifiez les zones où concentrer vos efforts au lieu de prospecter au hasard.",
+        tag: "PRIORITÉ TERRAIN",
+        anchorId: "map-zones",
       },
       {
-        eyebrow: "LOGISTIQUE",
-        metric: "Optimisé",
-        title: "Cartographie Dynamique",
-        text: "Une carte qui s'adapte à votre progression réelle. Plus besoin de pointer manuellement chaque rue sur papier.",
-        subNotes: ["Mise à jour en direct", "Filtres de secteurs personnalisés"]
-      }
-    ]
+        icon: MapPin,
+        title: "Suivez la couverture réelle",
+        text: "Visualisez les rues déjà visitées, celles oubliées et celles qui restent à traiter.",
+        tag: "COUVERTURE",
+        anchorId: "map-coverage",
+      },
+      {
+        icon: BarChart3,
+        title: "Décidez avec une donnée claire",
+        text: "Appuyez vos actions sur un score lisible plutôt que sur une impression terrain dispersée.",
+        tag: "SCORE",
+        anchorId: "map-score",
+      },
+    ],
   },
   {
-    id: "home" as const,
+    id: "home",
     number: "02",
     eyebrow: "PILOTAGE QUOTIDIEN",
     title: "Une journée plus claire pour chaque commercial.",
-    description: "Objectifs, actions prioritaires, progression et performance : chacun sait où il en est et ce qu’il doit faire ensuite.",
+    description:
+      "Chaque commercial sait quoi faire, où aller et quelle action prioriser. Le manager suit l’avancement sans demander un reporting permanent.",
     callouts: [
       {
-        eyebrow: "EFFICACITÉ GLOBALE",
-        metric: "15 min / débrief",
-        title: "Motiver sans complexifier",
-        text: "Les KPI essentiels restent visibles sans noyer le commercial dans des tableaux inutiles.",
-        subNotes: ["Tableau de bord temps réel", "Objectifs hebdomadaires"]
+        icon: Target,
+        title: "Objectifs visibles dès le départ",
+        text: "Donnez un cap clair à la journée : appels, visites, relances et rendez-vous.",
+        tag: "OBJECTIFS",
+        anchorId: "home-objectives",
       },
       {
-        eyebrow: "PERFORMANCE",
-        metric: "KPI Live",
-        title: "Indicateurs de Succès",
-        text: "Suivez votre ratio de transformation en temps réel. Sachez exactement quel effort produit quel résultat.",
-        subNotes: ["Progression vs objectifs", "Statistiques de passage"]
-      }
-    ]
+        icon: Activity,
+        title: "Activité suivie en temps réel",
+        text: "Les actions terrain remontent automatiquement pour éviter les tableaux manuels en fin de journée.",
+        tag: "LIVE TERRAIN",
+        anchorId: "home-live",
+      },
+      {
+        icon: TrendingUp,
+        title: "Performance exploitable",
+        text: "Repérez les écarts, les blocages et les commerciaux qui ont besoin d’un appui.",
+        tag: "MANAGER",
+        anchorId: "home-perf",
+      },
+    ],
   },
   {
-    id: "prospects" as const,
+    id: "prospects",
     number: "03",
-    eyebrow: "SUIVI PROSPECT",
+    eyebrow: "MÉMOIRE PROSPECTS",
     title: "Ne laissez plus vos opportunités disparaître après le passage terrain.",
-    description: "Les prospects sont qualifiés, priorisés et relancés au bon moment pour transformer l’activité terrain en conversions.",
+    description:
+      "Chaque contact garde son statut, son historique et sa prochaine action. La prospection ne dépend plus de notes perdues ou de souvenirs flous.",
     callouts: [
       {
-        eyebrow: "RETENTION CLIENT",
-        metric: "0 perte d'info",
-        title: "Relancer avec le bon contexte",
-        text: "Chaque interaction reste attachée au prospect pour agir vite, relancer proprement et éviter les pertes d’information.",
-        subNotes: ["Historique complet des passages", "Rappels automatiques intelligents"]
+        icon: FileText,
+        title: "Historique centralisé",
+        text: "Retrouvez l’adresse, le statut, les passages et les échanges sans chercher dans plusieurs outils.",
+        tag: "FICHE TERRAIN",
+        anchorId: "prospects-history",
       },
       {
-        eyebrow: "QUALIFICATION",
-        metric: "Data Riche",
-        title: "Fiches Prospects Détailées",
-        text: "Capturez les détails qui font la différence : besoins spécifiques, meilleur moment pour rappeler, humeur du prospect.",
-        subNotes: ["Notes vocales & photos", "Score de chaleur prospect"]
-      }
-    ]
+        icon: Bell,
+        title: "Relances maîtrisées",
+        text: "Chaque prospect à suivre ressort au bon moment pour éviter les opportunités oubliées.",
+        tag: "RELANCE",
+        anchorId: "prospects-followup",
+      },
+      {
+        icon: Users,
+        title: "Donnée propre pour l’équipe",
+        text: "Tout le monde travaille sur la même information : commercial, manager, back-office.",
+        tag: "ÉQUIPE",
+        anchorId: "prospects-team",
+      },
+    ],
   },
   {
-    id: "flash" as const,
+    id: "flash",
     number: "04",
     eyebrow: "PROSPECTION FLASH",
     title: "Agissez plus vite que jamais sur le terrain.",
-    description: "Le mode Flash vous permet de qualifier une rue entière en quelques secondes sans jamais perdre votre focus.",
+    description:
+      "Le mode Flash permet de qualifier une adresse en quelques secondes, sans casser le rythme de passage.",
     callouts: [
       {
-        eyebrow: "VITESSE D'EXÉCUTION",
-        metric: "3s / porte",
-        title: "Qualification en un tap",
-        text: "Le mode Flash vous permet de qualifier une rue entière en quelques secondes sans jamais perdre votre focus.",
-        subNotes: ["Optimisé pour le terrain", "Zéro friction logicielle"]
+        icon: Zap,
+        title: "Qualification en 3 secondes",
+        text: "Intéressé, absent, refus, relance : le bon statut est saisi immédiatement.",
+        tag: "ACTION RAPIDE",
+        anchorId: "flash-actions",
       },
       {
-        eyebrow: "CONNECTIVITÉ",
-        metric: "Edge Sync",
-        title: "Infrastructure Robuste",
-        text: "Une application conçue pour les zones blanches. Synchronisation asynchrone pour ne jamais ralentir votre foulée.",
-        subNotes: ["Mode hors-ligne complet", "Cryptage de bout en bout"]
-      }
-    ]
-  }
+        icon: RefreshCw,
+        title: "Enregistrement immédiat",
+        text: "Chaque action est sauvegardée pour conserver une donnée terrain fiable.",
+        tag: "DONNÉE FIABLE",
+        anchorId: "flash-save",
+      },
+      {
+        icon: Workflow,
+        title: "Suite commerciale automatique",
+        text: "Le statut déclenche la bonne suite : rappel, relance, note ou prochain passage.",
+        tag: "SUIVI",
+        anchorId: "flash-followup",
+      },
+    ],
+  },
 ];
 
 export default function Home() {
@@ -108,19 +176,46 @@ export default function Home() {
   const titleRef = useRef<HTMLDivElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+  const cadastralRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-  
+
   const [activeScreen, setActiveScreen] = useState<"map" | "home" | "prospects" | "flash">("map");
 
   return (
     <>
-      <HeroOpeningScene 
-        titleRef={titleRef} 
-        phoneRef={phoneRef} 
+      <HeroOpeningScene
+        titleRef={titleRef}
+        phoneRef={phoneRef}
         sectionRefs={sectionRefs}
         setActiveScreen={setActiveScreen}
         bgRef={bgRef}
+        cadastralRef={cadastralRef}
       />
+
+      {/* Layer cadastral fixe — grille 80px translucide qui prend le relais
+          de la map 3D dès la fin du hero (cf. cahier §9 et §10). */}
+      <div
+        ref={cadastralRef}
+        className="fixed inset-0 z-[1] pointer-events-none opacity-0"
+        aria-hidden
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(60,40,20,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(60,40,20,0.045) 1px, transparent 1px)",
+            backgroundSize: "80px 80px",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(60,40,20,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(60,40,20,0.025) 1px, transparent 1px)",
+            backgroundSize: "16px 16px",
+          }}
+        />
+      </div>
       
       <ScrollIndicator />
       
@@ -147,13 +242,12 @@ export default function Home() {
               </h1>
             </div>
 
-            {/* 2. LE TÉLÉPHONE */}
-            <div 
+            {/* 2. LE TÉLÉPHONE — sticky central, ~25% plus petit, jamais coupé */}
+            <div
               ref={phoneRef}
-              className="absolute top-20 bottom-0 left-0 right-0 z-20 flex items-center justify-center px-6 opacity-0 translate-y-[100vh]"
+              className="absolute inset-0 z-20 flex items-center justify-center px-6 opacity-0 translate-y-[100vh]"
             >
-              <div className="w-full max-w-[300px] pointer-events-auto relative">
-                <FloatingWidgets currentScreen={activeScreen} />
+              <div className="w-full max-w-[230px] pointer-events-auto relative max-h-[70vh] flex items-center justify-center">
                 <PhoneFrame currentScreen={activeScreen} />
               </div>
             </div>
@@ -165,10 +259,10 @@ export default function Home() {
                 ref={(el) => { sectionRefs.current[index] = el; }}
                 className="absolute inset-0 z-30 flex items-center justify-center px-6"
               >
-                <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_420px_1fr] gap-12 items-center pointer-events-none">
+                <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[minmax(280px,0.95fr)_minmax(240px,300px)_minmax(320px,1fr)] gap-x-[clamp(36px,5vw,88px)] gap-y-12 items-center pointer-events-none">
                   {/* Texte Gauche */}
-                  <div className="space-y-6 left-content opacity-0">
-                    <SectionContent 
+                  <div className="space-y-6 left-content opacity-0 max-w-[430px]">
+                    <SectionContent
                       number={section.number}
                       eyebrow={section.eyebrow}
                       title={section.title}
@@ -181,25 +275,18 @@ export default function Home() {
                   {/* Espace central libre pour le téléphone */}
                   <div className="h-[600px] lg:h-20" />
 
-                  {/* Callout Droite (Double Cartes - Droites & Séparées) */}
-                  <div className="space-y-24 right-content opacity-0 relative flex flex-col items-center">
-                    {section.callouts.map((callout, cIdx) => (
-                      <div key={cIdx} className="relative">
-                        {/* Ligne de connexion individuelle ultra-fine */}
-                        <div 
-                          className="absolute top-1/2 -left-20 w-20 h-[1px] bg-line-2 hidden lg:block origin-right pointer-line scale-x-0"
-                        >
-                          {/* Point de connexion style "réticule" */}
-                          <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full border border-terrain/30 flex items-center justify-center bg-canvas/50 backdrop-blur-sm">
-                            <div className="w-1 h-1 bg-terrain rounded-full shadow-[0_0_5px_rgba(226,91,20,0.5)]" />
-                          </div>
-                        </div>
-
-                        <CalloutCard 
-                          {...callout}
-                          manual={true}
-                        />
-                      </div>
+                  {/* Cards fonctionnelles à droite (3 par section, §16) */}
+                  <div className="right-content opacity-0 relative flex flex-col items-stretch gap-5 pointer-events-none">
+                    {section.callouts.map((callout) => (
+                      <CalloutCard
+                        key={callout.anchorId}
+                        icon={callout.icon}
+                        title={callout.title}
+                        text={callout.text}
+                        tag={callout.tag}
+                        anchorId={callout.anchorId}
+                        manual={true}
+                      />
                     ))}
                   </div>
                 </div>
@@ -208,25 +295,32 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Section 04 - CTA Final (Scroll normal) */}
-        <section className="relative z-30 py-32 px-6 bg-canvas overflow-hidden border-t border-line">
-          <div className="absolute inset-0 opacity-[0.7] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(60,40,20,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(60,40,20,.04) 1px, transparent 1px)', backgroundSize: '80px 80px', WebkitMaskImage: 'radial-gradient(ellipse 60% 50% at 50% 50%, transparent 30%, #000 80%)' }} />
+        {/* Bloc d'accroche final (cf. cahier §17 — précède le formulaire) */}
+        <section className="relative z-30 pt-32 pb-16 px-6 bg-canvas overflow-hidden border-t border-line">
+          <div
+            className="absolute inset-0 opacity-[0.7] pointer-events-none"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(60,40,20,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(60,40,20,.04) 1px, transparent 1px)",
+              backgroundSize: "80px 80px",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 60% 50% at 50% 50%, transparent 30%, #000 80%)",
+            }}
+          />
           <div className="max-w-3xl mx-auto text-center space-y-6 relative z-10">
-            <span className="font-mono text-[11px] tracking-[0.16em] text-terrain font-semibold uppercase">§ 05 — PASSER À L’ÉTAPE SUIVANTE</span>
+            <span className="font-mono text-[11px] tracking-[0.16em] text-terrain font-semibold uppercase">
+              § 05 — PASSER À L’ÉTAPE SUIVANTE
+            </span>
             <h2 className="text-[clamp(36px,6vw,88px)] font-light tracking-[-0.03em] leading-[1.05] text-ink max-w-[22ch] mx-auto text-balance">
-              Ne marchez plus à l&apos;aveugle.<br/><b className="font-bold text-terrain">Prospectez</b> avec précision.
+              Ne marchez plus à l&apos;aveugle.
+              <br />
+              <b className="font-bold text-terrain">Prospectez</b> avec précision.
             </h2>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-              <button className="inline-flex items-center gap-2 h-[54px] px-[22px] rounded-full font-semibold text-[15px] tracking-[-0.005em] bg-terrain text-white shadow-shadow-2 transition-all hover:bg-terrain-2 hover:shadow-shadow-3 w-full sm:w-auto justify-center">
-                Réserver une démo <span className="font-mono font-medium">→</span>
-              </button>
-              <button className="inline-flex items-center gap-2 h-[54px] px-[22px] rounded-full font-semibold text-[15px] tracking-[-0.005em] bg-teal text-paper-2 shadow-shadow-1 transition-all hover:bg-teal-2 w-full sm:w-auto justify-center">
-                Prendre contact
-              </button>
-            </div>
-            <p className="font-mono text-[11px] text-muted tracking-[0.1em] uppercase pt-4">Démo en 15 min · sans engagement</p>
           </div>
         </section>
+
+        {/* Formulaire CTA footer (§17) */}
+        <DemoForm />
       </main>
     </>
   );
