@@ -69,6 +69,86 @@
   html {
     -webkit-tap-highlight-color: transparent;
   }
+
+  /* Neutralise le fond noir par défaut du canvas WebGL MapLibre.
+     Sans ça, dès qu'on baisse l'opacité du conteneur de la map (transition hero
+     -> section 1), un flash noir apparaît. Le fond clair vient du parent. */
+  .maplibregl-map,
+  .maplibregl-canvas,
+  .maplibregl-canvas-container {
+    background: transparent !important;
+  }
+
+  /* Accessibilité motion (cahier §4.9).
+     Désactive rotations, floating, transitions longues. Garde les fade-in
+     courts qui restent informatifs sans gêner. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Boutons réutilisables — micro-interactions cahier §4.7. */
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 54px;
+    padding-inline: 1.75rem;
+    border-radius: 9999px;
+    background-color: var(--color-terrain);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: var(--shadow-2);
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      background-color 200ms ease, box-shadow 200ms ease;
+    will-change: transform;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-terrain-2);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-3);
+  }
+  .btn-primary:active {
+    transform: translateY(0) scale(0.98);
+  }
+  .btn-primary .arrow {
+    display: inline-block;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .btn-primary:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    height: 54px;
+    padding-inline: 1.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-line);
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    color: var(--color-ink);
+    font-weight: 600;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      background-color 200ms ease, border-color 200ms ease;
+  }
+  .btn-secondary:hover {
+    background-color: #fff;
+    border-color: var(--color-line-2);
+    transform: translateY(-2px);
+  }
+  .btn-secondary:active {
+    transform: translateY(0) scale(0.98);
+  }
 }
 
 /* Typography Scale (From Charter) */

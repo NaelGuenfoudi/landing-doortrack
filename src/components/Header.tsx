@@ -49,8 +49,8 @@ export default function Header() {
         </Link>
       </nav>
 
-      <Link 
-        href="#beta" 
+      <Link
+        href="#beta"
         className="flex items-center gap-1.5 px-[14px] py-[7px] bg-terrain text-paper-2 text-[13px] font-semibold tracking-tight rounded-full transition-colors hover:bg-terrain-2"
       >
         Rejoindre la bêta <span className="font-mono font-medium">→</span>

@@ -50,11 +50,12 @@ export default function CalloutCard({
       whileInView={whileInView}
       viewport={viewport}
       transition={transition}
-      className="relative w-full max-w-[340px] rounded-[20px] border border-line bg-paper/92 shadow-shadow-2 backdrop-blur-[10px] px-6 py-5"
+      whileHover={{ y: -4 }}
+      className="group relative w-full max-w-[340px] rounded-[20px] border border-line bg-paper/92 shadow-shadow-2 backdrop-blur-[10px] px-6 py-5 transition-[box-shadow,border-color] duration-200 hover:shadow-shadow-3 hover:border-line-2"
     >
       <CalloutLine />
       <div className="flex items-center gap-3 mb-3">
-        <span className="w-7 h-7 rounded-lg bg-terrain-soft text-terrain-2 grid place-items-center shrink-0">
+        <span className="w-7 h-7 rounded-lg bg-terrain-soft text-terrain-2 grid place-items-center shrink-0 transition-transform duration-200 group-hover:scale-[1.04]">
           <Icon size={16} strokeWidth={1.75} aria-hidden />
         </span>
         <h3 className="text-[16px] leading-[1.25] font-bold tracking-[-0.01em] text-ink">

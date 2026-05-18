@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 interface SectionContentProps {
-  number: string;
+  number?: string;
   eyebrow: string;
   title: string;
   description: string;
@@ -12,11 +12,10 @@ interface SectionContentProps {
   manual?: boolean;
 }
 
-export default function SectionContent({ 
-  number, 
-  eyebrow, 
-  title, 
-  description, 
+export default function SectionContent({
+  eyebrow,
+  title,
+  description,
   isFirst,
   customTextAlign = "left",
   manual = false
@@ -38,15 +37,12 @@ export default function SectionContent({
       style={{ textAlign: customTextAlign }}
       className="space-y-6"
     >
-      <motion.div 
+      <motion.div
         initial={manual ? undefined : { opacity: 0 }}
         whileInView={manual ? undefined : { opacity: 1 }}
         transition={manual ? undefined : { delay: 0.2 }}
         className="flex flex-col gap-1.5 mb-2"
       >
-        <span className="font-mono text-[12px] tracking-[0.18em] text-terrain font-semibold">
-          $ {number}
-        </span>
         <span className="font-mono text-[12px] tracking-[0.18em] text-muted font-medium uppercase">
           {eyebrow}
         </span>

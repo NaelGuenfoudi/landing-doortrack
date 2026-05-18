@@ -27,10 +27,11 @@ export default function BetaCTA() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-            <button className="h-[54px] px-8 rounded-full bg-terrain text-white font-bold hover:bg-terrain-2 transition-all whitespace-nowrap">
-              Être rappelé →
+            <button type="button" className="btn-primary whitespace-nowrap">
+              Être rappelé{" "}
+              <span className="arrow font-mono font-medium">→</span>
             </button>
-            <button className="h-[54px] px-8 rounded-full border border-line bg-transparent text-ink font-bold hover:bg-canvas transition-all whitespace-nowrap">
+            <button type="button" className="btn-secondary whitespace-nowrap">
               Prendre contact
             </button>
           </div>

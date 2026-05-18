@@ -35,7 +35,7 @@ export default function HeroOpeningScene({ titleRef, phoneRef, sectionRefs, setA
 
   return (
     <>
-      <div ref={mapContainerRef} className="fixed inset-0 z-0 pointer-events-none">
+      <div ref={mapContainerRef} className="fixed inset-0 z-0 pointer-events-none bg-canvas">
         <NancyMapLayer ref={mapRef} disableAnimation={isScrolling} />
       </div>
 

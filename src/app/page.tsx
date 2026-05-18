@@ -261,9 +261,9 @@ export default function Home() {
                 ref={(el) => { sectionRefs.current[index] = el; }}
                 className="absolute inset-0 z-30 flex items-center justify-center px-6"
               >
-                <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[minmax(280px,0.95fr)_minmax(240px,300px)_minmax(320px,1fr)] gap-x-[clamp(36px,5vw,88px)] gap-y-12 items-center pointer-events-none">
+                <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[minmax(280px,0.95fr)_minmax(240px,300px)_minmax(320px,1fr)] gap-x-[clamp(36px,5vw,88px)] gap-y-[clamp(24px,3vh,48px)] items-center pointer-events-none">
                   {/* Texte Gauche */}
-                  <div className="space-y-6 left-content opacity-0 max-w-[430px]">
+                  <div className="space-y-[clamp(12px,2vh,24px)] left-content opacity-0 max-w-[430px]">
                     <SectionContent
                       number={section.number}
                       eyebrow={section.eyebrow}
@@ -278,7 +278,7 @@ export default function Home() {
                   <div className="h-[600px] lg:h-20" />
 
                   {/* Cards fonctionnelles à droite (3 par section, §16) */}
-                  <div className="right-content opacity-0 relative flex flex-col items-stretch gap-5 pointer-events-none">
+                  <div className="right-content opacity-0 relative flex flex-col items-stretch gap-[clamp(10px,1.6vh,20px)] pointer-events-none">
                     {section.callouts.map((callout) => (
                       <CalloutCard
                         key={callout.anchorId}

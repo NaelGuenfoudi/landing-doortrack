@@ -83,7 +83,7 @@ export default function ScrollChoreography({
     });
 
     // --- SPRINT 1 : INTRO (0% -> 20%) ---
-    
+
     // 1. Map s'élève (0 -> 10%)
     tl.to(mapState, {
       pitch: 0, bearing: 0, zoom: 15.5,
@@ -107,10 +107,12 @@ export default function ScrollChoreography({
 
     // 4. La map 3D se désature et s'estompe au profit du plan cadastral
     //    (cahier §9 — fond sobre, peu contrasté, presque texturé après le hero).
+    //    Opacité min remontée (0.18 -> 0.55) + brightness boost pour éviter tout
+    //    flash sombre pendant la transition pitch 60 -> 0 (bug noir hero -> section 1).
     if (mapContainer) {
       tl.to(mapContainer, {
-        opacity: 0.18,
-        filter: "saturate(0.4) contrast(0.85) brightness(1.08)",
+        opacity: 0.55,
+        filter: "saturate(0.55) contrast(0.9) brightness(1.06)",
         duration: 0.1,
         ease: "power1.inOut",
       }, 0.05);
