@@ -1,3 +1,27 @@
+# 📋 Journal de bord — Suivi du projet Doortrack
+
+Ce document vous permet de suivre l'avancement de la création de votre landing page. Les mises à jour sont automatiques après chaque modification.
+
+## 🚀 État actuel du projet
+- **Dernière mise à jour :** Dimanche 24 Mai 2026
+- **Statut global :** 🟢 Finition de la structure et préparation du mode client autonome.
+
+---
+
+## ✅ Ce qui a été réalisé récemment
+- **Refonte des instructions de l'IA :** J'ai maintenant toutes les consignes pour travailler directement avec vous, sans jargon technique.
+- **Mise en place de la publication automatique :** Chaque modification validée ensemble sera publiée sur votre lien Netlify en quelques minutes.
+- **Finalisation des sections :** Accueil, Rejoindre la bêta, et Vision & Contact sont prêtes.
+
+## ⏳ Ce qu'il reste à faire
+1. **Guide d'installation :** Je prépare un document pour vous aider à installer les outils nécessaires (Gemini CLI) en quelques clics.
+2. **Phase de test client :** Vous allez pouvoir commencer à me demander des modifications directement.
+
+---
+
+## 🛠️ Historique technique (Archives)
+*(Cette section contient les détails techniques pour les développeurs)*
+
 # DoorTrack — Suivi d'exécution des 5 sprints
 
 > Fichier de continuité. Permet de reprendre le travail avec n'importe quel LLM en lisant uniquement `docs/doortrack_dossier_ux_ui_motion_5_sprints.md` (le cahier) + ce fichier.
@@ -145,7 +169,7 @@ Centralisation dans `globals.css` via deux classes `@layer components` :
 Appliquées à : `BetaSection` (Rejoindre la bêta / En savoir plus), `EngagementSelector` (CTA panneau), `BetaCTA` (Être rappelé / Prendre contact), `ContactForm` (Échanger sur DoorTrack).
 
 ### 4.4 prefers-reduced-motion global — 🟢
-`globals.css` : `@media (prefers-reduced-motion: reduce)` force `animation-duration: 0.001ms` et `transition-duration: 0.001ms` sur `*`. + `OrbitalMap` détecte aussi cette media query côté JS pour stopper le RAF.
+`globals.css` : `@media (prefers-reduced-motion: reduce)` force `animation-duration: 0.001ms` et `transition-duration: 0.001ms` on `*`. + `OrbitalMap` détecte aussi cette media query côté JS pour stopper le RAF.
 
 ### 4.5 Hover cartes (CalloutCard + cartes Vision) — 🟢
 - `CalloutCard.tsx` : ajout `whileHover={{ y: -4 }}` + classe `group` ; transition `hover:shadow-shadow-3 hover:border-line-2` + icône en `group-hover:scale-[1.04]`.
