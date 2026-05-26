@@ -34,18 +34,25 @@ const NancyMapLayer = forwardRef<MapRef, NancyMapLayerProps>(({ disableAnimation
       const map = mapRef.current?.getMap();
       if (map && !disableAnimation && map.isStyleLoaded()) {
         const scrollY = window.scrollY;
-        
-        // On n'anime QUE si on est exactement en haut (0)
-        // Dès que le scroll commence, GSAP prend le contrôle exclusif
-        if (scrollY <= 5) {
-          parallax.current.x += (mousePos.current.x - parallax.current.x) * 0.05;
-          parallax.current.y += (mousePos.current.y - parallax.current.y) * 0.05;
+        const scrollThreshold = window.innerHeight * 0.8;
+        const progress = Math.min(scrollY / scrollThreshold, 1);
 
-          map.jumpTo({
-            bearing: -20 + (parallax.current.x * 6),
-            pitch: 60 + (parallax.current.y * 3)
-          });
-        }
+        parallax.current.x += (mousePos.current.x - parallax.current.x) * 0.05;
+        parallax.current.y += (mousePos.current.y - parallax.current.y) * 0.05;
+
+        // Le parallax s'estompe au fur et à mesure que la carte se met à plat
+        const currentParallaxX = parallax.current.x * (1 - progress);
+        const currentParallaxY = parallax.current.y * (1 - progress);
+
+        const targetPitch = 60 * (1 - progress) + (currentParallaxY * 3);
+        const targetBearing = -20 * (1 - progress) + (currentParallaxX * 6);
+        const targetZoom = 16 - (progress * 1.0); // Dézoom progressif vers 15 pour le fond d'écran
+
+        map.jumpTo({
+          bearing: targetBearing,
+          pitch: targetPitch,
+          zoom: targetZoom
+        });
       }
       requestRef.current = requestAnimationFrame(animate);
     };

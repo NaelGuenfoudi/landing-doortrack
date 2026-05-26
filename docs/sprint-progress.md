@@ -3,19 +3,20 @@
 Ce document vous permet de suivre l'avancement de la création de votre landing page. Les mises à jour sont automatiques après chaque modification.
 
 ## 🚀 État actuel du projet
-- **Dernière mise à jour :** Dimanche 24 Mai 2026
-- **Statut global :** 🟢 Finition de la structure et préparation du mode client autonome.
+- **Dernière mise à jour :** Mardi 26 Mai 2026
+- **Statut global :** 🟢 Finitions premium appliquées et validées sur le sélecteur, les formulaires, le pied de page et les visuels.
 
 ---
 
 ## ✅ Ce qui a été réalisé récemment
-- **Refonte des instructions de l'IA :** J'ai maintenant toutes les consignes pour travailler directement avec vous, sans jargon technique.
-- **Mise en place de la publication automatique :** Chaque modification validée ensemble sera publiée sur votre lien Netlify en quelques minutes.
-- **Finalisation des sections :** Accueil, Rejoindre la bêta, et Vision & Contact sont prêtes.
+- **Finitions du sélecteur de participation :** Ajout d'un curseur de liaison triangulaire fluide et d'un widget radar dynamique pour orienter le choix de manière intuitive.
+- **Section d'assistance au choix enrichie :** Formulation plus naturelle et ajout de textures douces d'arrière-plan.
+- **Formulaire de contact optimisé :** Intégration d'une phrase de réassurance, boutons de validation adaptés automatiquement au choix de l'utilisateur, et lisibilité accrue de la mise en page.
+- **Pied de page modernisé :** Signature ajustée et amélioration de la visibilité des liens.
+- **Validation globale :** Suppression des anomalies résiduelles de mise en page.
 
 ## ⏳ Ce qu'il reste à faire
-1. **Guide d'installation :** Je prépare un document pour vous aider à installer les outils nécessaires (Gemini CLI) en quelques clics.
-2. **Phase de test client :** Vous allez pouvoir commencer à me demander des modifications directement.
+1. **Lancement de la phase de test client :** Validation finale par les premiers utilisateurs et retours d'usage.
 
 ---
 

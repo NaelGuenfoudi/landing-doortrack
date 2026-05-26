@@ -7,7 +7,7 @@ import createGlobe from "cobe";
  * OrbitalMap (Cobe)
  * -----------------
  * Globe WebGL "dots" stylé, derrière le téléphone du hero bêta.
- * Palette : orange DoorTrack sur sphère paper. Rotation lente continue.
+ * Palette : orange Doortrack sur sphère paper. Rotation lente continue.
  *
  * Couleurs Cobe = float RGB (0-1).
  *   --color-terrain   #E25B14 → [0.886, 0.357, 0.078]

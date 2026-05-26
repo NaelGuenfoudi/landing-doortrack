@@ -32,7 +32,7 @@ export default function DemoForm() {
     const data = new FormData(form);
     const get = (k: string) => String(data.get(k) ?? "").trim();
 
-    const subject = `Demande de démo DoorTrack — ${get("company") || get("lastname")}`;
+    const subject = `Demande de démo Doortrack — ${get("company") || get("lastname")}`;
     const body = [
       `Prénom : ${get("firstname")}`,
       `Nom : ${get("lastname")}`,
@@ -73,11 +73,11 @@ export default function DemoForm() {
             § 06 — DEMANDE DE DÉMO
           </span>
           <h2 className="text-[clamp(32px,4vw,56px)] leading-[1.05] tracking-[-0.025em] font-bold text-ink text-balance">
-            Demandez une démo DoorTrack
+            Demandez une démo Doortrack
           </h2>
           <p className="text-[15px] leading-[1.6] text-ink-soft max-w-[62ch]">
             Expliquez-nous votre organisation terrain. Nous vous recontactons pour
-            vous montrer comment DoorTrack peut s’adapter à votre équipe.
+            vous montrer comment Doortrack peut s’adapter à votre équipe.
           </p>
         </header>
 
